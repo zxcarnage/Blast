@@ -1,4 +1,5 @@
 ﻿using Ecs.Core.Utils;
+using Ecs.Game.Systems.Initialize;
 using Scellecs.Morpeh;
 using VContainer;
 using VContainer.Unity;
@@ -13,8 +14,9 @@ namespace Ecs.Core.Installers
             
             builder.RegisterEntryPoint<RootWorld>();
             builder.RegisterInstance(world);
+            builder.Register<PlayerInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
 
-            GameEcsSystems.Register(builder);
+            //GameEcsSystems.Register(builder);
         }
     }
 }
