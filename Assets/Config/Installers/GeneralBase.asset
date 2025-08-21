@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PrefabsBase>k__BackingField: {fileID: 11400000, guid: b7a0cc5780db76f44bc5e914c289e8e3,
     type: 2}
+  <PlayerMovementParameters>k__BackingField: {fileID: 11400000, guid: 47aea264b7546be46abd6d9b85875d8e,
+    type: 2}

@@ -13,6 +13,7 @@ namespace Installers
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterInstance(_generalBase.PrefabsBase).AsImplementedInterfaces();
+            builder.RegisterInstance(_generalBase.PlayerMovementParameters).AsImplementedInterfaces();
         }
     }
 }
