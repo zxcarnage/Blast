@@ -13,12 +13,23 @@ namespace Installers
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterProviders(builder);
-            builder.RegisterInstance(_gameField);
+            RegisterServices(builder);
+            RegisterInstances(builder);
         }
 
         private void RegisterProviders(IContainerBuilder builder)
         {
             builder.Register<GameFieldProvider>(Lifetime.Singleton).AsImplementedInterfaces();
+        }
+
+        private void RegisterServices(IContainerBuilder builder)
+        {
+            builder.Register<PlayerInputAction>(Lifetime.Singleton);
+        }
+
+        private void RegisterInstances(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(_gameField);
         }
     }
 }
