@@ -37,10 +37,10 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Mouse Movement"",
                     ""type"": ""Value"",
-                    ""id"": ""bcdcfd48-ba67-4ab4-a4ee-2e56ef65dfe3"",
-                    ""expectedControlType"": """",
+                    ""id"": ""d8e96324-0262-4e74-822c-0a7759998a3d"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -104,12 +104,12 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""02c9f67d-3a9f-4dbf-9bd0-d56cabb97db8"",
-                    ""path"": """",
+                    ""id"": ""44a09d0a-5a9c-40fd-8f48-584b94c290ce"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Mouse Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -121,7 +121,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         // Keyboard
         m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
         m_Keyboard_WASDMovement = m_Keyboard.FindAction("WASD Movement", throwIfNotFound: true);
-        m_Keyboard_Newaction = m_Keyboard.FindAction("New action", throwIfNotFound: true);
+        m_Keyboard_MouseMovement = m_Keyboard.FindAction("Mouse Movement", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -189,13 +189,13 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Keyboard;
     private List<IKeyboardActions> m_KeyboardActionsCallbackInterfaces = new List<IKeyboardActions>();
     private readonly InputAction m_Keyboard_WASDMovement;
-    private readonly InputAction m_Keyboard_Newaction;
+    private readonly InputAction m_Keyboard_MouseMovement;
     public struct KeyboardActions
     {
         private @PlayerInputAction m_Wrapper;
         public KeyboardActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @WASDMovement => m_Wrapper.m_Keyboard_WASDMovement;
-        public InputAction @Newaction => m_Wrapper.m_Keyboard_Newaction;
+        public InputAction @MouseMovement => m_Wrapper.m_Keyboard_MouseMovement;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,9 +208,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @WASDMovement.started += instance.OnWASDMovement;
             @WASDMovement.performed += instance.OnWASDMovement;
             @WASDMovement.canceled += instance.OnWASDMovement;
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @MouseMovement.started += instance.OnMouseMovement;
+            @MouseMovement.performed += instance.OnMouseMovement;
+            @MouseMovement.canceled += instance.OnMouseMovement;
         }
 
         private void UnregisterCallbacks(IKeyboardActions instance)
@@ -218,9 +218,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @WASDMovement.started -= instance.OnWASDMovement;
             @WASDMovement.performed -= instance.OnWASDMovement;
             @WASDMovement.canceled -= instance.OnWASDMovement;
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @MouseMovement.started -= instance.OnMouseMovement;
+            @MouseMovement.performed -= instance.OnMouseMovement;
+            @MouseMovement.canceled -= instance.OnMouseMovement;
         }
 
         public void RemoveCallbacks(IKeyboardActions instance)
@@ -241,6 +241,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     public interface IKeyboardActions
     {
         void OnWASDMovement(InputAction.CallbackContext context);
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnMouseMovement(InputAction.CallbackContext context);
     }
 }

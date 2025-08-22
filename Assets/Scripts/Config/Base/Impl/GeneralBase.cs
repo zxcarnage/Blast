@@ -1,5 +1,6 @@
 ﻿using Config.Player.Impl;
 using UnityEngine;
+using UnityEngine.Windows.WebCam;
 
 namespace Config.Base.Impl
 {
@@ -11,5 +12,8 @@ namespace Config.Base.Impl
         
         [field: SerializeField]
         public PlayerMovementParameters PlayerMovementParameters { get; private set; }
+
+        [field: SerializeField]
+        public CameraParameters CameraParameters { get; private set; }
     }
 }

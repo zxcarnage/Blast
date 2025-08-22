@@ -15,10 +15,10 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "New action",
+                    "name": "Mouse Movement",
                     "type": "Value",
-                    "id": "bcdcfd48-ba67-4ab4-a4ee-2e56ef65dfe3",
-                    "expectedControlType": "",
+                    "id": "d8e96324-0262-4e74-822c-0a7759998a3d",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -82,12 +82,12 @@
                 },
                 {
                     "name": "",
-                    "id": "02c9f67d-3a9f-4dbf-9bd0-d56cabb97db8",
-                    "path": "",
+                    "id": "44a09d0a-5a9c-40fd-8f48-584b94c290ce",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Mouse Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

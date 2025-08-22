@@ -1,5 +1,6 @@
 ﻿using Config.Base.Impl;
 using Config.Player.Impl;
+using UnityEngine.Windows.WebCam;
 
 namespace Config.Base
 {
@@ -7,5 +8,6 @@ namespace Config.Base
     {
         PrefabsBase PrefabsBase { get; }
         PlayerMovementParameters PlayerMovementParameters { get; }
+        CameraParameters CameraParameters { get; }
     }
 }
