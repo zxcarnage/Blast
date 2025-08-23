@@ -51,11 +51,13 @@ namespace Ecs.Game.Systems.Movement
                 ref var rigidbody = ref _rigidbodyStash.Get(player);
                 ref var transform = ref _transformStash.Get(player);
                 
-                var worldDirection = transform.Value.TransformDirection(direction.Value);
-                var targetMovementDirection =
-                    new Vector3(worldDirection.x, rigidbody.Value.velocity.y, worldDirection.y);
-                //rigidbody.Value.AddForce(targetMovementDirection * _playerMovementParameters.Speed, ForceMode.VelocityChange);
-                rigidbody.Value.velocity = targetMovementDirection * _playerMovementParameters.Speed;
+                var localDirection = new Vector3(direction.Value.x, 0f, direction.Value.z);
+                var worldDirection = transform.Value.TransformDirection(localDirection);
+                var currentYVelocity = rigidbody.Value.velocity.y;
+                var targetVelocity = worldDirection * _playerMovementParameters.Speed;
+                targetVelocity.y = currentYVelocity;
+                
+                rigidbody.Value.velocity = targetVelocity;
             }
         }
 

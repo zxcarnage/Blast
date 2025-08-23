@@ -22,6 +22,7 @@ namespace Ecs.Core.Installers
             builder.Register<KeyboardInputSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             
             builder.Register<PlayerMovementSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<CameraRotationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

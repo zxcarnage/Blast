@@ -16,3 +16,5 @@ MonoBehaviour:
     type: 2}
   <PlayerMovementParameters>k__BackingField: {fileID: 11400000, guid: 47aea264b7546be46abd6d9b85875d8e,
     type: 2}
+  <CameraParameters>k__BackingField: {fileID: 11400000, guid: d65e819e7c491f245bd7407f23fe0f16,
+    type: 2}

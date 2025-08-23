@@ -1,9 +1,11 @@
 ﻿using Config.Camera;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
+using Ecs.Utils;
 using R3;
 using Scellecs.Morpeh;
 using UnityEngine;
+using Utils.DebugUtil;
 using Utils.Providers.GameField;
 
 namespace Ecs.Game.Systems.Input
@@ -34,6 +36,9 @@ namespace Ecs.Game.Systems.Input
 
         public void OnAwake()
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            
             _playerFilter = World.Filter
                 .With<PlayerComponent>()
                 .Build();
@@ -55,19 +60,22 @@ namespace Ecs.Game.Systems.Input
             void HandleMovementInput(Entity entity)
             {
                 var movementInputDirection = Vector2.ClampMagnitude(_inputAction.Keyboard.WASDMovement.ReadValue<Vector2>(), 1f);
-                _moveDirectionStash.Set(entity, new MoveDirectionComponent() { Value = movementInputDirection });
-                
+
+                var movementVector3 = new Vector3(movementInputDirection.x, 0f, movementInputDirection.y);
+                _moveDirectionStash.Set(entity, new MoveDirectionComponent() { Value = movementVector3 });
             }
 
             void HandleLookInput(Entity entity)
             {
                 var mouseInput = _inputAction.Keyboard.MouseMovement.ReadValue<Vector2>();
-                var sensitivity = _cameraParameters.Sensitivity;
-                var lookDelta = new Vector3(mouseInput.x, -mouseInput.y, 0f) * sensitivity;
+                var frameSensitivity = _cameraParameters.Sensitivity * deltaTime;
+                var lookDelta = new Vector3(-mouseInput.y, mouseInput.x, 0f) * frameSensitivity;
+
                 var currentRotation = _lookDirectionStash.Get(entity);
                 var targetRotation = currentRotation.Value + lookDelta;
-                var yClamp = Mathf.Clamp(targetRotation.y, _cameraParameters.MinMaxY.x , _cameraParameters.MinMaxY.y);
-                targetRotation.y = yClamp;
+                var yClamp = Mathf.Clamp(targetRotation.x, _cameraParameters.MinMaxY.x , _cameraParameters.MinMaxY.y);
+                targetRotation.x = yClamp;
+                DebugUtility.Log($"Mouse input: {mouseInput}\n Look delta: {lookDelta}\n Current rotation: {currentRotation}\n TargetRotation: {targetRotation}", UtilsColors.NotificationColor);
                 _lookDirectionStash.Set(entity, new LookDirectionComponent() { Value = targetRotation });
             }
         }

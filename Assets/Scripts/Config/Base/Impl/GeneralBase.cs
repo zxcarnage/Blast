@@ -1,6 +1,6 @@
-﻿using Config.Player.Impl;
+﻿using Config.Camera.Impl;
+using Config.Player.Impl;
 using UnityEngine;
-using UnityEngine.Windows.WebCam;
 
 namespace Config.Base.Impl
 {
