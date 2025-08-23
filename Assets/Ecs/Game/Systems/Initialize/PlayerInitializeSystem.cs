@@ -26,6 +26,7 @@ namespace Ecs.Game.Systems.Initialize
             var playerView = _gameFieldProvider.GameField.Player;
             
             World.CreatePlayer(playerView);
+            World.CreatePlayerHead(playerView);
             
             _resolver.Inject(playerView);
         }

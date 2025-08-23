@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Config.Camera.Impl;
+using Config.Player.Impl;
+using UnityEngine;
 
 namespace Config.Base.Impl
 {
@@ -7,5 +9,11 @@ namespace Config.Base.Impl
     {
         [field: SerializeField]
         public PrefabsBase PrefabsBase { get; private set; }
+        
+        [field: SerializeField]
+        public PlayerMovementParameters PlayerMovementParameters { get; private set; }
+
+        [field: SerializeField]
+        public CameraParameters CameraParameters { get; private set; }
     }
 }

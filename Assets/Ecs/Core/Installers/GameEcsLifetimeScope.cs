@@ -1,5 +1,7 @@
 ﻿using Ecs.Core.Utils;
 using Ecs.Game.Systems.Initialize;
+using Ecs.Game.Systems.Input;
+using Ecs.Game.Systems.Movement;
 using Scellecs.Morpeh;
 using VContainer;
 using VContainer.Unity;
@@ -14,9 +16,13 @@ namespace Ecs.Core.Installers
             
             builder.RegisterEntryPoint<RootWorld>();
             builder.RegisterInstance(world);
+            
             builder.Register<PlayerInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
-
-            //GameEcsSystems.Register(builder);
+            builder.Register<InputInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<KeyboardInputSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            
+            builder.Register<PlayerMovementSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<CameraRotationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }
