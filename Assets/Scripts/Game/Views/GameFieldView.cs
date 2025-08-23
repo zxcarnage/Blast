@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Game.Views.Player;
+using UnityEngine;
 
-namespace Views
+namespace Game.Views
 {
     public class GameFieldView : MonoBehaviour
     {

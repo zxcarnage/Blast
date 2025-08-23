@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Game.Services.Pool.Enemy.Impls;
+using Game.Views;
+using UnityEngine;
 using Utils.Providers.GameField.Impl;
 using VContainer;
 using VContainer.Unity;
-using Views;
 
 namespace Installers
 {
@@ -25,6 +26,7 @@ namespace Installers
         private void RegisterServices(IContainerBuilder builder)
         {
             builder.Register<PlayerInputAction>(Lifetime.Singleton);
+            builder.Register<EnemyPool>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterInstances(IContainerBuilder builder)

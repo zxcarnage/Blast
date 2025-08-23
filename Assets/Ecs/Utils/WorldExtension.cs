@@ -1,8 +1,9 @@
 ﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
+using Game.Views;
+using Game.Views.Player;
 using Scellecs.Morpeh;
 using UnityEngine;
-using Views;
 
 namespace Ecs.Utils
 {

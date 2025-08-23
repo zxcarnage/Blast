@@ -1,4 +1,5 @@
 ﻿using Config.Camera.Impl;
+using Config.Enemy.EnemyBase.Impl;
 using Config.Player.Impl;
 using UnityEngine;
 
@@ -15,5 +16,8 @@ namespace Config.Base.Impl
 
         [field: SerializeField]
         public CameraParameters CameraParameters { get; private set; }
+
+        [field: SerializeField]
+        public EnemyBase EnemyBase { get; private set; }
     }
 }
