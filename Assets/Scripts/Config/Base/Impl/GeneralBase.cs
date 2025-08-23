@@ -1,5 +1,6 @@
 ﻿using Config.Camera.Impl;
 using Config.Enemy.EnemyBase.Impl;
+using Config.Enemy.EnemySpawner.Impl;
 using Config.Player.Impl;
 using UnityEngine;
 
@@ -19,5 +20,8 @@ namespace Config.Base.Impl
 
         [field: SerializeField]
         public EnemyBase EnemyBase { get; private set; }
+        
+        [field: SerializeField]
+        public EnemySpawnerParameters EnemySpawnerParameters { get; private set; }
     }
 }
