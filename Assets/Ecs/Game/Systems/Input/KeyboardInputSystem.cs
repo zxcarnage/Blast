@@ -3,8 +3,10 @@ using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
 using Ecs.Utils;
 using R3;
+using ReactiveInputSystem;
 using Scellecs.Morpeh;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utils.DebugUtil;
 using Utils.Providers.GameField;
 
@@ -13,24 +15,23 @@ namespace Ecs.Game.Systems.Input
     public class KeyboardInputSystem : ISystem
     {
         private readonly PlayerInputAction _inputAction;
-        private readonly IGameFieldProvider _gameFieldProvider;
         private readonly ICameraParameters _cameraParameters;
         private readonly CompositeDisposable _disposables = new();
 
         private Filter _playerFilter;
+        
         private Stash<MoveDirectionComponent> _moveDirectionStash;
         private Stash<LookDirectionComponent> _lookDirectionStash;
+        private Stash<ShootComponent> _shootStash;
 
         public World World { get; set; }
 
         public KeyboardInputSystem(
             PlayerInputAction inputAction,
-            IGameFieldProvider gameFieldProvider,
             ICameraParameters cameraParameters
         )
         {
             _inputAction = inputAction;
-            _gameFieldProvider = gameFieldProvider;
             _cameraParameters = cameraParameters;
         }
 
@@ -45,6 +46,8 @@ namespace Ecs.Game.Systems.Input
             
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _lookDirectionStash = World.GetStash<LookDirectionComponent>();
+            
+            _inputAction.Keyboard.Shoot.PerformedAsObservable().Subscribe(HandleShoot).AddTo(_disposables);
         }
 
         public void OnUpdate(float deltaTime)
@@ -82,6 +85,14 @@ namespace Ecs.Game.Systems.Input
         public void Dispose()
         {
             _disposables?.Dispose();
+        }
+
+        private void HandleShoot(InputAction.CallbackContext ctx)
+        {
+            foreach (var playerEntity in _playerFilter)
+            {
+                _shootStash.Set(playerEntity);
+            }
         }
     }
 }

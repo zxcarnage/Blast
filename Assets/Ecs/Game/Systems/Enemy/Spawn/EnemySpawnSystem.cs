@@ -4,6 +4,7 @@ using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.SpawnPoint;
 using Ecs.Game.Components.Timer;
+using Game.Services.Factory.Enemy;
 using Game.Services.OverlapService;
 using Game.Services.Pool.Enemy;
 using Game.Utils.Enemy;
@@ -17,7 +18,7 @@ namespace Ecs.Game.Systems.Enemy.Spawn
 {
     public class EnemySpawnSystem : ISystem
     {
-        private readonly IEnemyPool _enemyPool;
+        private readonly IEnemyFactory _enemyFactory;
         private readonly IOverlapService _overlapService;
         private readonly IEnemySpawnerParameters _enemySpawnerParameters;
 
@@ -30,12 +31,12 @@ namespace Ecs.Game.Systems.Enemy.Spawn
         public World World { get; set; }
 
         public EnemySpawnSystem(
-            IEnemyPool enemyPool,
+            IEnemyFactory enemyFactory,
             IOverlapService overlapService,
             IEnemySpawnerParameters enemySpawnerParameters
         )
         {
-            _enemyPool = enemyPool;
+            _enemyFactory = enemyFactory;
             _overlapService = overlapService;
             _enemySpawnerParameters = enemySpawnerParameters;
         }
@@ -82,10 +83,9 @@ namespace Ecs.Game.Systems.Enemy.Spawn
                     if (isEnemyThere)
                         continue;
                     
-                    var randomSpawnPointIndex = Random.Range(0, spawnPointCount);
                     var randomEnemyType = Random.Range(1, Enum.GetValues(typeof(EEnemyType)).Length);
-                    var enemy = _enemyPool.SpawnEnemy((EEnemyType) randomEnemyType);
-                    enemy.transform.position = spawnPointTransform.Value.position;
+                    
+                    _enemyFactory.CreateEnemy((EEnemyType) randomEnemyType, spawnPointTransform.Value.position);
 
                     return true;
                 }
