@@ -1,5 +1,6 @@
 ﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
+using Ecs.Game.Components.Timer;
 using Game.Views;
 using Game.Views.Player;
 using Scellecs.Morpeh;
@@ -17,6 +18,13 @@ namespace Ecs.Utils
             world.GetStash<RigidbodyComponent>().Set(player, new RigidbodyComponent() { Value = playerView.Rigidbody});
             world.GetStash<TransformComponent>().Set(player, new TransformComponent() { Value = playerView.Transform });
             world.GetStash<LookDirectionComponent>().Set(player, new LookDirectionComponent() { Value = Vector3.zero });
+        }
+
+        public static Entity CreateTimer(this World world)
+        {
+            var timerEntity = world.CreateEntity();
+            world.GetStash<TimerComponent>().Add(timerEntity);
+            return timerEntity;
         }
 
         public static void CreatePlayerHead(this World world, PlayerView playerView)

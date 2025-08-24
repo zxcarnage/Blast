@@ -75,7 +75,6 @@ namespace Ecs.Game.Systems.Input
                 var targetRotation = currentRotation.Value + lookDelta;
                 var yClamp = Mathf.Clamp(targetRotation.x, _cameraParameters.MinMaxY.x , _cameraParameters.MinMaxY.y);
                 targetRotation.x = yClamp;
-                DebugUtility.Log($"Mouse input: {mouseInput}\n Look delta: {lookDelta}\n Current rotation: {currentRotation}\n TargetRotation: {targetRotation}", UtilsColors.NotificationColor);
                 _lookDirectionStash.Set(entity, new LookDirectionComponent() { Value = targetRotation });
             }
         }

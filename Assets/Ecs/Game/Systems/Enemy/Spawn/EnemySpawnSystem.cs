@@ -1,4 +1,5 @@
-﻿using Config.Enemy.EnemySpawner;
+﻿using Ecs.Game.Components.Enemy;
+using Ecs.Game.Components.Timer;
 using Game.Services.Pool.Enemy;
 using Scellecs.Morpeh;
 
@@ -7,32 +8,37 @@ namespace Ecs.Game.Systems.Enemy.Spawn
     public class EnemySpawnSystem : ISystem
     {
         private readonly IEnemyPool _enemyPool;
-        private readonly IEnemySpawnerParameters _enemySpawnerParameters;
+
+        private Filter _expiredSpawnTimer;
         
         public World World { get; set; }
 
         public EnemySpawnSystem(
-            IEnemyPool enemyPool,
-            IEnemySpawnerParameters  enemySpawnerParameters
+            IEnemyPool enemyPool
         )
         {
             _enemyPool = enemyPool;
-            _enemySpawnerParameters = enemySpawnerParameters;
         }
 
         public void OnAwake()
         {
-            throw new System.NotImplementedException();
+            _expiredSpawnTimer = World.Filter
+                .With<TimerComponent>()
+                .With<EnemySpawnTimerComponent>()
+                .With<TimerEndedComponent>()
+                .Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            throw new System.NotImplementedException();
+            foreach (var timer in _expiredSpawnTimer)
+            {
+                //Spawn enemy in spawn point
+            }
         }
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

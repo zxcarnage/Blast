@@ -18,3 +18,7 @@ MonoBehaviour:
     type: 2}
   <CameraParameters>k__BackingField: {fileID: 11400000, guid: d65e819e7c491f245bd7407f23fe0f16,
     type: 2}
+  <EnemyBase>k__BackingField: {fileID: 11400000, guid: 75ea987f519cfa64eb1bed5464927a87,
+    type: 2}
+  <EnemySpawnerParameters>k__BackingField: {fileID: 11400000, guid: ffac134c38ded8c4287225267a690337,
+    type: 2}
