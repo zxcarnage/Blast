@@ -7,5 +7,8 @@ namespace Game.Views
     {
         [field: SerializeField] 
         public PlayerView Player { get; private set; }
+        
+        [field: SerializeField]
+        public GameObject[] SpawnPoints { get; private set; }
     }
 }

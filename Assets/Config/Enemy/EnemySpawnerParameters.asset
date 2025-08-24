@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d6f66ebfdf4c0b9bdddb329befb3cb, type: 3}
   m_Name: EnemySpawnerParameters
   m_EditorClassIdentifier: 
-  <Delay>k__BackingField: 200
+  <Delay>k__BackingField: 6

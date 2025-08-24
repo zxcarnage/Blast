@@ -23,14 +23,23 @@ namespace Config.Enemy.EnemyBase.Impl
         [HideInInspector]
         private Dictionary<EEnemyType, IReadOnlyList<EnemyView>> _enemiesVariations;
 
+        private Dictionary<EEnemyType, EnemyTypeInfo> _enemyInfos;
+
         public IReadOnlyDictionary<EEnemyType, IReadOnlyList<EnemyView>> EnemiesVariations => _enemiesVariations;
         
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            _enemyInfos = new Dictionary<EEnemyType, EnemyTypeInfo>();
+
+            foreach (var pair in _enemyMatrices)
+            {
+                _enemyInfos[pair.Key] = pair.Value;
+            }
+
             _enemiesVariations = new Dictionary<EEnemyType, IReadOnlyList<EnemyView>>();
 
-            foreach (var pair in _enemiesVariations)
+            foreach (var pair in _enemyInfos)
             {
                 _enemiesVariations[pair.Key] = pair.Value;
             }
