@@ -1,4 +1,5 @@
-﻿using Game.Services.Pool.Enemy.Impls;
+﻿using Game.Services.OverlapService.Impl;
+using Game.Services.Pool.Enemy.Impls;
 using Game.Views;
 using UnityEngine;
 using Utils.Providers.GameField.Impl;
@@ -27,6 +28,7 @@ namespace Installers
         {
             builder.Register<PlayerInputAction>(Lifetime.Singleton);
             builder.Register<EnemyPool>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<OverlapService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterInstances(IContainerBuilder builder)

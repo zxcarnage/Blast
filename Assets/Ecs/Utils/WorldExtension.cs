@@ -1,5 +1,6 @@
 ﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
+using Ecs.Game.Components.SpawnPoint;
 using Ecs.Game.Components.Timer;
 using Game.Views;
 using Game.Views.Player;
@@ -25,6 +26,13 @@ namespace Ecs.Utils
             var timerEntity = world.CreateEntity();
             world.GetStash<TimerComponent>().Add(timerEntity);
             return timerEntity;
+        }
+        
+        public static void CreateSpawnPoint(this World world, GameObject spawnPoint)
+        {
+            var spawnPointEntity = world.CreateEntity();
+            world.GetStash<SpawnPointComponent>().Add(spawnPointEntity);
+            world.GetStash<TransformComponent>().Add(spawnPointEntity,  new TransformComponent() { Value = spawnPoint.transform });
         }
 
         public static void CreatePlayerHead(this World world, PlayerView playerView)

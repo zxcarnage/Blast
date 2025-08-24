@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: EnemySpawnerParameters
   m_EditorClassIdentifier: 
   <Delay>k__BackingField: 6
+  <EnemyCheckRadius>k__BackingField: 2

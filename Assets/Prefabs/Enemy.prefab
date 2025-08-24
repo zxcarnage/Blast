@@ -42,7 +42,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3873022329392180701}
-  m_Material: {fileID: 13400000, guid: 4ce18192ca8644e4e83dc09555dc1f9a, type: 2}
+  m_Material: {fileID: 13400000, guid: 8c76fdc8a0a4cd84691ed3ee8a474fff, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3eda23ed36b4d7f803dfa1c9432b4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rigidbody>k__BackingField: {fileID: 1838301157919549519}
   <Transform>k__BackingField: {fileID: 4383865107482713614}
+  <Rigidbody>k__BackingField: {fileID: 1838301157919549519}
   <Collider>k__BackingField: {fileID: 4047945791580684326}
 --- !u!1 &5525050885154128780
 GameObject:

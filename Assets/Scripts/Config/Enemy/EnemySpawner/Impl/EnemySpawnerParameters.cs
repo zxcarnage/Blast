@@ -7,5 +7,8 @@ namespace Config.Enemy.EnemySpawner.Impl
     {
         [field: SerializeField]
         public float Delay { get; private set; }
+
+        [field: SerializeField]
+        public float EnemyCheckRadius { get; private set; }
     }
 }

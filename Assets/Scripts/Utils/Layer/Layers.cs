@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Utils.Layer
+﻿namespace Utils.Layer
 {
     public class Layers
     {
@@ -32,7 +30,7 @@ namespace Utils.Layer
                 get
                 {
                     if (!_id.HasValue)
-                        _id = LayerMask.NameToLayer(_name);
+                        _id = UnityEngine.LayerMask.NameToLayer(_name);
                     return _id.Value;
                 }
             }
