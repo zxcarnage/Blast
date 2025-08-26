@@ -2,6 +2,7 @@
 using Config.Camera.Impl;
 using Config.Enemy.EnemyBase.Impl;
 using Config.Enemy.EnemySpawner.Impl;
+using Config.Enemy.Impl;
 using Config.Player.Impl;
 
 namespace Config.Base
@@ -13,5 +14,7 @@ namespace Config.Base
         CameraParameters CameraParameters { get; }
         EnemyBase EnemyBase { get; }
         EnemySpawnerParameters EnemySpawnerParameters { get; }
+        PlayerShootingParameters PlayerShootingParameters { get; }
+        EnemyParameters EnemyParameters { get; }
     }
 }

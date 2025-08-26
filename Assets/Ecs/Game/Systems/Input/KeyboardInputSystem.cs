@@ -47,7 +47,7 @@ namespace Ecs.Game.Systems.Input
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _lookDirectionStash = World.GetStash<LookDirectionComponent>();
             
-            _inputAction.Keyboard.Shoot.PerformedAsObservable().Subscribe(HandleShoot).AddTo(_disposables);
+            _inputAction.Keyboard.Shoot.StartedAsObservable().Subscribe(HandleShoot).AddTo(_disposables);
         }
 
         public void OnUpdate(float deltaTime)

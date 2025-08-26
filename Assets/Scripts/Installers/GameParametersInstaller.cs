@@ -17,6 +17,7 @@ namespace Installers
             builder.RegisterInstance(_generalBase.CameraParameters).AsImplementedInterfaces();
             builder.RegisterInstance(_generalBase.EnemyBase).AsImplementedInterfaces();
             builder.RegisterInstance(_generalBase.EnemySpawnerParameters).AsImplementedInterfaces();
+            builder.RegisterInstance(_generalBase.PlayerShootingParameters).AsImplementedInterfaces();
         }
     }
 }

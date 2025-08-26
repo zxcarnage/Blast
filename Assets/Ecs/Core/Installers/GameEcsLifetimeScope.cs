@@ -1,8 +1,11 @@
 ﻿using Ecs.Core.Utils;
+using Ecs.Game.Systems.Character;
+using Ecs.Game.Systems.Enemy.Shooting;
 using Ecs.Game.Systems.Enemy.Spawn;
 using Ecs.Game.Systems.Initialize;
 using Ecs.Game.Systems.Input;
 using Ecs.Game.Systems.Movement;
+using Ecs.Game.Systems.Shooting;
 using Ecs.Game.Systems.Timer;
 using Scellecs.Morpeh;
 using VContainer;
@@ -30,6 +33,9 @@ namespace Ecs.Core.Installers
             builder.Register<PlayerMovementSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<CameraRotationSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemySpawnSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<ShootingSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EnemyDamageHandlerSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EnemyDeathSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

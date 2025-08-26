@@ -1,0 +1,105 @@
+﻿using Config.Player;
+using Ecs.Game.Components.Character;
+using Ecs.Game.Components.Enemy;
+using Ecs.Game.Components.Player;
+using Game.Services.OverlapService;
+using Scellecs.Morpeh;
+using UnityEngine;
+using Utils;
+using Utils.DebugUtil;
+using LayerMask = Utils.Layer.LayerMask;
+
+namespace Ecs.Game.Systems.Shooting
+{
+    public class ShootingSystem : ISystem
+    {
+        private readonly IPlayerShootingParameters _playerShootingParameters;
+        private readonly IOverlapService _overlapService;
+        public World World { get; set; }
+
+        private Filter _playerShootingFilter;
+        private Filter _playerHeadFilter;
+        private Filter _enemyFilter;
+
+        private Stash<TransformComponent> _transformStash;
+        private Stash<HitComponent> _hitStash;
+        private Stash<ShootComponent> _shootStash;
+
+        public ShootingSystem(
+            IPlayerShootingParameters playerShootingParameters,
+            IOverlapService overlapService
+        )
+        {
+            _playerShootingParameters = playerShootingParameters;
+            _overlapService = overlapService;
+        }
+
+        public void OnAwake()
+        {
+            _playerShootingFilter = World.Filter
+                .With<PlayerComponent>()
+                .With<ShootComponent>()
+                .Build();
+            
+            _playerHeadFilter = World.Filter
+                .With<PlayerHeadComponent>()
+                .Build();
+
+            _enemyFilter = World.Filter
+                .With<EnemyComponent>()
+                .Build();
+            
+            
+            _transformStash = World.GetStash<TransformComponent>();
+            _hitStash = World.GetStash<HitComponent>();
+            _shootStash = World.GetStash<ShootComponent>();
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            foreach (var playerEntity in _playerShootingFilter)
+            {
+                foreach (var playerHead in _playerHeadFilter)
+                {
+                    var headTransform = _transformStash.Get(playerHead).Value;
+                    var raycastFrom = headTransform.position;
+                    var raycastTo = headTransform.forward;
+                    DebugUtility.Log($"Raycast from {raycastFrom} to {raycastTo}", UtilsColors.ErrorColor);
+                    var raycastHit = _overlapService.GetRaycastHit(
+                        raycastFrom, 
+                        raycastTo, 
+                        float.MaxValue, 
+                        LayerMask.Enemy
+                    );
+                    var enemyEntity = FindEntityByPosition(raycastHit.point);
+                    
+                    if(enemyEntity == null)
+                        continue;
+                    
+                    _hitStash.Set(enemyEntity!.Value, new HitComponent { Value = _playerShootingParameters.Damage });
+                }
+                
+                _shootStash.Remove(playerEntity);
+            }
+        }
+
+        private Entity? FindEntityByPosition(Vector3 position)
+        {
+            foreach (var enemyEntity in _enemyFilter)
+            {
+                var enemyTransform = _transformStash.Get(enemyEntity);
+
+                if (Vector3.Distance(enemyTransform.Value.position, position) <= ConstValues.ENTITY_SEARCH_RADIUS)
+                    return enemyEntity;
+            }
+
+            DebugUtility.Log($"No entity found with position {position}", UtilsColors.ErrorColor);
+            
+            return null;
+        }
+
+        public void Dispose()
+        {
+        }
+    }
+}
