@@ -71,7 +71,11 @@ namespace Ecs.Game.Systems.Shooting
                         float.MaxValue, 
                         LayerMask.Enemy
                     );
-                    var enemyEntity = FindEntityByPosition(raycastHit.point);
+
+                    if (raycastHit.collider == null)
+                        continue;
+                    
+                    var enemyEntity = FindEntityByPosition(raycastHit.collider.transform.position);
                     
                     if(enemyEntity == null)
                         continue;

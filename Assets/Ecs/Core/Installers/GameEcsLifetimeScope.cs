@@ -7,7 +7,6 @@ using Ecs.Game.Systems.Input;
 using Ecs.Game.Systems.Movement;
 using Ecs.Game.Systems.Shooting;
 using Ecs.Game.Systems.Timer;
-using Scellecs.Morpeh;
 using VContainer;
 using VContainer.Unity;
 
@@ -17,10 +16,7 @@ namespace Ecs.Core.Installers
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            var world = World.Default;
-            
             builder.RegisterEntryPoint<RootWorld>();
-            builder.RegisterInstance(world);
             
             builder.Register<PlayerInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InputInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();

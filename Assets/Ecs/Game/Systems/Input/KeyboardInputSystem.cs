@@ -1,14 +1,11 @@
 ﻿using Config.Camera;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
-using Ecs.Utils;
 using R3;
 using ReactiveInputSystem;
 using Scellecs.Morpeh;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utils.DebugUtil;
-using Utils.Providers.GameField;
 
 namespace Ecs.Game.Systems.Input
 {
@@ -46,6 +43,7 @@ namespace Ecs.Game.Systems.Input
             
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _lookDirectionStash = World.GetStash<LookDirectionComponent>();
+            _shootStash = World.GetStash<ShootComponent>();
             
             _inputAction.Keyboard.Shoot.StartedAsObservable().Subscribe(HandleShoot).AddTo(_disposables);
         }

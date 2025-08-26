@@ -1,7 +1,9 @@
-﻿using Game.Services.Factory.Enemy.Impl;
+﻿using Ecs.Core.Utils;
+using Game.Services.Factory.Enemy.Impl;
 using Game.Services.OverlapService.Impl;
 using Game.Services.Pool.Enemy.Impls;
 using Game.Views;
+using Scellecs.Morpeh;
 using UnityEngine;
 using Utils.Providers.GameField.Impl;
 using VContainer;
@@ -15,9 +17,17 @@ namespace Installers
         
         protected override void Configure(IContainerBuilder builder)
         {
+            RegisterWorld(builder);
             RegisterProviders(builder);
             RegisterServices(builder);
             RegisterInstances(builder);
+        }
+
+        private void RegisterWorld(IContainerBuilder builder)
+        {
+            var world = World.Default;
+            
+            builder.RegisterInstance(world);
         }
 
         private void RegisterProviders(IContainerBuilder builder)
