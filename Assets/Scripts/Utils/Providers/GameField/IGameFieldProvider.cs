@@ -1,4 +1,4 @@
-﻿using Views;
+﻿using Game.Views;
 
 namespace Utils.Providers.GameField
 {

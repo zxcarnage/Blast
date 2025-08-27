@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using Game.Services.Factory.Enemy.Impl;
+using Game.Services.OverlapService.Impl;
+using Game.Services.Pool.Enemy.Impls;
+using Game.Views;
+using Scellecs.Morpeh;
+using UnityEngine;
 using Utils.Providers.GameField.Impl;
 using VContainer;
 using VContainer.Unity;
-using Views;
 
 namespace Installers
 {
@@ -12,9 +16,17 @@ namespace Installers
         
         protected override void Configure(IContainerBuilder builder)
         {
+            RegisterWorld(builder);
             RegisterProviders(builder);
             RegisterServices(builder);
             RegisterInstances(builder);
+        }
+
+        private void RegisterWorld(IContainerBuilder builder)
+        {
+            var world = World.Default;
+            
+            builder.RegisterInstance(world);
         }
 
         private void RegisterProviders(IContainerBuilder builder)
@@ -25,6 +37,9 @@ namespace Installers
         private void RegisterServices(IContainerBuilder builder)
         {
             builder.Register<PlayerInputAction>(Lifetime.Singleton);
+            builder.Register<EnemyPool>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<OverlapService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EnemyFactory>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterInstances(IContainerBuilder builder)

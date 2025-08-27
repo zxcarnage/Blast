@@ -44,6 +44,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""3effeb61-309e-42b1-a73e-4c6189f86706"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5af6c79c-6a68-4d0f-90d2-7eeb8d870ef4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
         m_Keyboard_WASDMovement = m_Keyboard.FindAction("WASD Movement", throwIfNotFound: true);
         m_Keyboard_MouseMovement = m_Keyboard.FindAction("Mouse Movement", throwIfNotFound: true);
+        m_Keyboard_Shoot = m_Keyboard.FindAction("Shoot", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -190,12 +211,14 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private List<IKeyboardActions> m_KeyboardActionsCallbackInterfaces = new List<IKeyboardActions>();
     private readonly InputAction m_Keyboard_WASDMovement;
     private readonly InputAction m_Keyboard_MouseMovement;
+    private readonly InputAction m_Keyboard_Shoot;
     public struct KeyboardActions
     {
         private @PlayerInputAction m_Wrapper;
         public KeyboardActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @WASDMovement => m_Wrapper.m_Keyboard_WASDMovement;
         public InputAction @MouseMovement => m_Wrapper.m_Keyboard_MouseMovement;
+        public InputAction @Shoot => m_Wrapper.m_Keyboard_Shoot;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -211,6 +234,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @MouseMovement.started += instance.OnMouseMovement;
             @MouseMovement.performed += instance.OnMouseMovement;
             @MouseMovement.canceled += instance.OnMouseMovement;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
         }
 
         private void UnregisterCallbacks(IKeyboardActions instance)
@@ -221,6 +247,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @MouseMovement.started -= instance.OnMouseMovement;
             @MouseMovement.performed -= instance.OnMouseMovement;
             @MouseMovement.canceled -= instance.OnMouseMovement;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
         }
 
         public void RemoveCallbacks(IKeyboardActions instance)
@@ -242,5 +271,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     {
         void OnWASDMovement(InputAction.CallbackContext context);
         void OnMouseMovement(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

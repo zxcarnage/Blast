@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: 
+    TypeName: Installers.GameParametersInstaller
   autoRun: 1
   autoInjectGameObjects: []
   _gameField: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: 
+    TypeName: Installers.GameInstaller
   autoRun: 1
   autoInjectGameObjects: []
 --- !u!114 &1750049714327030840

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 921098535598681215}
   - component: {fileID: 644792681025303673}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 7996676660444733441}
   - component: {fileID: 2852722554645152104}
   - component: {fileID: 7136243217210284264}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a39ad3817f4c9fb1719d838eb87664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rigidbody>k__BackingField: {fileID: 7996676660444733441}
   <Transform>k__BackingField: {fileID: 4358821425405737212}
+  <Rigidbody>k__BackingField: {fileID: 7996676660444733441}
   <Collider>k__BackingField: {fileID: 2852722554645152104}
   <PlayerHead>k__BackingField: {fileID: 472282536958031240}

@@ -1,36 +1,38 @@
 ﻿using Config.Camera;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
-using Ecs.Utils;
 using R3;
+using ReactiveInputSystem;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
-using Utils.DebugUtil;
-using Utils.Providers.GameField;
+using UnityEngine.InputSystem;
 
 namespace Ecs.Game.Systems.Input
 {
-    public class KeyboardInputSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class KeyboardInputSystem : ISystem
     {
         private readonly PlayerInputAction _inputAction;
-        private readonly IGameFieldProvider _gameFieldProvider;
         private readonly ICameraParameters _cameraParameters;
         private readonly CompositeDisposable _disposables = new();
 
         private Filter _playerFilter;
+        
         private Stash<MoveDirectionComponent> _moveDirectionStash;
         private Stash<LookDirectionComponent> _lookDirectionStash;
+        private Stash<ShootComponent> _shootStash;
 
         public World World { get; set; }
 
         public KeyboardInputSystem(
             PlayerInputAction inputAction,
-            IGameFieldProvider gameFieldProvider,
             ICameraParameters cameraParameters
         )
         {
             _inputAction = inputAction;
-            _gameFieldProvider = gameFieldProvider;
             _cameraParameters = cameraParameters;
         }
 
@@ -45,6 +47,9 @@ namespace Ecs.Game.Systems.Input
             
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _lookDirectionStash = World.GetStash<LookDirectionComponent>();
+            _shootStash = World.GetStash<ShootComponent>();
+            
+            _inputAction.Keyboard.Shoot.StartedAsObservable().Subscribe(HandleShoot).AddTo(_disposables);
         }
 
         public void OnUpdate(float deltaTime)
@@ -75,7 +80,6 @@ namespace Ecs.Game.Systems.Input
                 var targetRotation = currentRotation.Value + lookDelta;
                 var yClamp = Mathf.Clamp(targetRotation.x, _cameraParameters.MinMaxY.x , _cameraParameters.MinMaxY.y);
                 targetRotation.x = yClamp;
-                DebugUtility.Log($"Mouse input: {mouseInput}\n Look delta: {lookDelta}\n Current rotation: {currentRotation}\n TargetRotation: {targetRotation}", UtilsColors.NotificationColor);
                 _lookDirectionStash.Set(entity, new LookDirectionComponent() { Value = targetRotation });
             }
         }
@@ -83,6 +87,14 @@ namespace Ecs.Game.Systems.Input
         public void Dispose()
         {
             _disposables?.Dispose();
+        }
+
+        private void HandleShoot(InputAction.CallbackContext ctx)
+        {
+            foreach (var playerEntity in _playerFilter)
+            {
+                _shootStash.Set(playerEntity);
+            }
         }
     }
 }
