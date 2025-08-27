@@ -23,6 +23,7 @@ namespace Ecs.Core.Installers
             builder.Register<InputInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<TimerInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<SpawnPointInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<HealthbarInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             
             builder.Register<KeyboardInputSystem>(Lifetime.Singleton).AsImplementedInterfaces();
 

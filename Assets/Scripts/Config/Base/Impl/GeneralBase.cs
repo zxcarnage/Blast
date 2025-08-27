@@ -34,5 +34,8 @@ namespace Config.Base.Impl
 
         [field: SerializeField]
         public HealthbarParameters HealthbarParameters { get; private set; }
+        
+        [field: SerializeField]
+        public PlayerBasicParameters PlayerBasicParameters { get; private set; }
     }
 }

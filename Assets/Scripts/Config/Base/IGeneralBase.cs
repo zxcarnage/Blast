@@ -18,5 +18,6 @@ namespace Config.Base
         PlayerShootingParameters PlayerShootingParameters { get; }
         EnemyParameters EnemyParameters { get; }
         HealthbarParameters HealthbarParameters { get; }
+        PlayerBasicParameters PlayerBasicParameters { get; }
     }
 }

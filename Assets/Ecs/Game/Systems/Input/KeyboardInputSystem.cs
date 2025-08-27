@@ -1,6 +1,8 @@
 ﻿using Config.Camera;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
+using Ecs.Game.Components.UI;
+using Game.Utils.UI;
 using R3;
 using ReactiveInputSystem;
 using Scellecs.Morpeh;
@@ -20,9 +22,11 @@ namespace Ecs.Game.Systems.Input
         private readonly CompositeDisposable _disposables = new();
 
         private Filter _playerFilter;
+        private Filter _upgradeMenuFilter;
         
         private Stash<MoveDirectionComponent> _moveDirectionStash;
         private Stash<LookDirectionComponent> _lookDirectionStash;
+        private Stash<UpgradeMenuComponent> _upgradeMenuStash;
         private Stash<ShootComponent> _shootStash;
 
         public World World { get; set; }
@@ -45,11 +49,17 @@ namespace Ecs.Game.Systems.Input
                 .With<PlayerComponent>()
                 .Build();
             
+            _upgradeMenuFilter = World.Filter
+                .With<UpgradeMenuComponent>()
+                .Build();
+            
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _lookDirectionStash = World.GetStash<LookDirectionComponent>();
+            _upgradeMenuStash = World.GetStash<UpgradeMenuComponent>();
             _shootStash = World.GetStash<ShootComponent>();
             
-            _inputAction.Keyboard.Shoot.StartedAsObservable().Subscribe(HandleShoot).AddTo(_disposables);
+            _inputAction.Keyboard.Shoot.StartedAsObservable().Subscribe(_ => HandleShoot()).AddTo(_disposables);
+            _inputAction.Keyboard.UpgradeMenu.StartedAsObservable().Subscribe(_ => HandleOpenUpgradeMenu()).AddTo(_disposables);
         }
 
         public void OnUpdate(float deltaTime)
@@ -84,17 +94,26 @@ namespace Ecs.Game.Systems.Input
             }
         }
 
-        public void Dispose()
-        {
-            _disposables?.Dispose();
-        }
-
-        private void HandleShoot(InputAction.CallbackContext ctx)
+        private void HandleShoot()
         {
             foreach (var playerEntity in _playerFilter)
             {
                 _shootStash.Set(playerEntity);
             }
+        }
+
+        private void HandleOpenUpgradeMenu()
+        {
+            foreach (var entity in _upgradeMenuFilter)
+            {
+                var upgradeMenuView = _upgradeMenuStash.Get(entity).Value;
+                upgradeMenuView.ChangeState(EUpgradeWindowState.Shown);
+            }
+        }
+
+        public void Dispose()
+        {
+            _disposables?.Dispose();
         }
     }
 }
