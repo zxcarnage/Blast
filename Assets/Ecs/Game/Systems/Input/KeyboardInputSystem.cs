@@ -4,12 +4,16 @@ using Ecs.Game.Components.Player;
 using R3;
 using ReactiveInputSystem;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Ecs.Game.Systems.Input
 {
-    public class KeyboardInputSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class KeyboardInputSystem : ISystem
     {
         private readonly PlayerInputAction _inputAction;
         private readonly ICameraParameters _cameraParameters;

@@ -4,10 +4,14 @@ using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Player;
 using Game.Services.Pool.Enemy;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 
 namespace Ecs.Game.Systems.Character
 {
-    public class EnemyDeathSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class EnemyDeathSystem : ISystem
     {
         private readonly IEnemyPool _enemyPool;
 
@@ -19,8 +23,7 @@ namespace Ecs.Game.Systems.Character
         private Stash<PlayerSkillpointComponent> _skillpointStash;
 
         public World World { get; set; }
-
-
+        
         public EnemyDeathSystem(
             IEnemyPool enemyPool
         )

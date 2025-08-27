@@ -16,7 +16,7 @@ namespace Game.Utils.Enemy
         
         public IEnumerator<EnemyView> GetEnumerator()
         {
-            return (Enemies as IReadOnlyList<EnemyView>).GetEnumerator(); //TODO: rider annotate that must be disposed, if will be allocation - check
+            return (Enemies as IReadOnlyList<EnemyView>).GetEnumerator();
         }
         
         IEnumerator IEnumerable.GetEnumerator()

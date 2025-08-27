@@ -1,5 +1,4 @@
-﻿using Game.Utils;
-using Game.Utils.Enemy;
+﻿using Game.Utils.Enemy;
 using Game.Views.Enemy;
 
 namespace Game.Services.Pool.Enemy

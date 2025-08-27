@@ -1,5 +1,4 @@
 ﻿using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 
 namespace Game.Services.OverlapService.Impl

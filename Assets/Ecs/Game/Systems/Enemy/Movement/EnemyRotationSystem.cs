@@ -2,11 +2,15 @@
 using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Player;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
 namespace Ecs.Game.Systems.Enemy.Movement
 {
-    public class EnemyRotationSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class EnemyRotationSystem : ISystem
     {
         private Filter _enemyFilter;
         private Filter _playerFilter;

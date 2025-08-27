@@ -6,18 +6,19 @@ using Ecs.Game.Components.SpawnPoint;
 using Ecs.Game.Components.Timer;
 using Game.Services.Factory.Enemy;
 using Game.Services.OverlapService;
-using Game.Services.Pool.Enemy;
 using Game.Utils.Enemy;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Utils;
-using Utils.DebugUtil;
 using Utils.Layer;
-using Utils.Providers.GameField;
 using Random = UnityEngine.Random;
 
 namespace Ecs.Game.Systems.Enemy.Spawn
 {
-    public class EnemySpawnSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class EnemySpawnSystem : ISystem
     {
         private readonly IEnemyFactory _enemyFactory;
         private readonly IOverlapService _overlapService;

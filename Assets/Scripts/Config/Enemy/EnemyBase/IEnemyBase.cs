@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Game.Utils;
 using Game.Utils.Enemy;
 using Game.Views.Enemy;
 

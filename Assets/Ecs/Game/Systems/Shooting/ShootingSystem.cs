@@ -4,6 +4,7 @@ using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Player;
 using Game.Services.OverlapService;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using Utils;
 using Utils.DebugUtil;
@@ -11,7 +12,10 @@ using LayerMask = Utils.Layer.LayerMask;
 
 namespace Ecs.Game.Systems.Shooting
 {
-    public class ShootingSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class ShootingSystem : ISystem
     {
         private readonly IPlayerShootingParameters _playerShootingParameters;
         private readonly IOverlapService _overlapService;
@@ -64,7 +68,6 @@ namespace Ecs.Game.Systems.Shooting
                     var headTransform = _transformStash.Get(playerHead).Value;
                     var raycastFrom = headTransform.position;
                     var raycastTo = headTransform.forward;
-                    DebugUtility.Log($"Raycast from {raycastFrom} to {raycastTo}", UtilsColors.ErrorColor);
                     var raycastHit = _overlapService.GetRaycastHit(
                         raycastFrom, 
                         raycastTo, 

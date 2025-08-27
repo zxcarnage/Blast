@@ -23,7 +23,7 @@ namespace Game.Services.Pool
             _container = container;
         }
 
-        public void CreateSubPools()
+        protected void CreateSubPools()
         {
             _pools = new Dictionary<TType, ObjectPool<TObject>>();
             

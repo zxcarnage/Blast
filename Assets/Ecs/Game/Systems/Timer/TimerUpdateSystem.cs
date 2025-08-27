@@ -2,11 +2,14 @@
 using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Timer;
 using Scellecs.Morpeh;
-using Utils.DebugUtil;
+using Unity.IL2CPP.CompilerServices;
 
 namespace Ecs.Game.Systems.Timer
 {
-    public class TimerUpdateSystem : ISystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class TimerUpdateSystem : ISystem
     {
         private readonly IEnemySpawnerParameters _enemySpawnerParameters;
         public World World { get; set; }
@@ -59,7 +62,6 @@ namespace Ecs.Game.Systems.Timer
 
         public void Dispose()
         {
-            // TODO release managed resources here
         }
     }
 }

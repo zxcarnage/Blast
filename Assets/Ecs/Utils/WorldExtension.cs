@@ -1,5 +1,4 @@
-﻿using Ecs.Game.Components;
-using Ecs.Game.Components.Character;
+﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
 using Ecs.Game.Components.SpawnPoint;
 using Ecs.Game.Components.Timer;
