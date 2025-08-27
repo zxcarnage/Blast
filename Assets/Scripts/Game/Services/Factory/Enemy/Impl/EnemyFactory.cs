@@ -2,6 +2,7 @@
 using Ecs.Game.Components;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Enemy;
+using Ecs.Game.Components.UI;
 using Game.Services.Pool.Enemy;
 using Game.Utils.Enemy;
 using Game.Views.Enemy;
@@ -40,6 +41,7 @@ namespace Game.Services.Factory.Enemy.Impl
             _world.GetStash<HealthComponent>().Add(enemyEntity, new HealthComponent() { Value = _enemyParameters.EnemyData[enemyType].Health });
             _world.GetStash<EnemyLinkComponent>().Add(enemyEntity, new EnemyLinkComponent() { Value = enemyView });
             _world.GetStash<EnemyTypeComponent>().Add(enemyEntity, new EnemyTypeComponent() { Value = enemyType });
+            _world.GetStash<HealthImageComponent>().Add(enemyEntity, new HealthImageComponent() { Value = enemyView.HealthbarImage });
 
             return enemyView;
         }

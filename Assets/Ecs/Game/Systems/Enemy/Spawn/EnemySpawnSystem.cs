@@ -9,6 +9,7 @@ using Game.Services.OverlapService;
 using Game.Services.Pool.Enemy;
 using Game.Utils.Enemy;
 using Scellecs.Morpeh;
+using Utils;
 using Utils.DebugUtil;
 using Utils.Layer;
 using Utils.Providers.GameField;
@@ -85,7 +86,8 @@ namespace Ecs.Game.Systems.Enemy.Spawn
                     
                     var randomEnemyType = Random.Range(1, Enum.GetValues(typeof(EEnemyType)).Length);
                     
-                    _enemyFactory.CreateEnemy((EEnemyType) randomEnemyType, spawnPointTransform.Value.position);
+                    var enemyView = _enemyFactory.CreateEnemy((EEnemyType) randomEnemyType, spawnPointTransform.Value.position);
+                    enemyView.HealthbarImage.fillAmount = ConstValues.ENEMY_HEALTHBAR_MAX_VALUE;
 
                     return true;
                 }

@@ -19,6 +19,7 @@ namespace Ecs.Utils
             world.GetStash<RigidbodyComponent>().Set(player, new RigidbodyComponent() { Value = playerView.Rigidbody});
             world.GetStash<TransformComponent>().Set(player, new TransformComponent() { Value = playerView.Transform });
             world.GetStash<LookDirectionComponent>().Set(player, new LookDirectionComponent() { Value = Vector3.zero });
+            world.GetStash<PlayerSkillpointComponent>().Set(player, new PlayerSkillpointComponent() { Value = 0 /*TODO: TEMP, LATER REIMPLEMENT WITH SAVINGS*/ });
         }
 
         public static Entity CreateTimer(this World world)

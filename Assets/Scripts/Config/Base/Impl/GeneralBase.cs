@@ -3,6 +3,7 @@ using Config.Enemy.EnemyBase.Impl;
 using Config.Enemy.EnemySpawner.Impl;
 using Config.Enemy.Impl;
 using Config.Player.Impl;
+using Config.UI.Healthbar.Impl;
 using UnityEngine;
 
 namespace Config.Base.Impl
@@ -30,5 +31,8 @@ namespace Config.Base.Impl
 
         [field: SerializeField]
         public EnemyParameters EnemyParameters { get; private set; }
+
+        [field: SerializeField]
+        public HealthbarParameters HealthbarParameters { get; private set; }
     }
 }

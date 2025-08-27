@@ -17,11 +17,16 @@ namespace Game.Services.OverlapService.Impl
             var parameters = new QueryParameters(searchLayerMask, hitTriggers: QueryTriggerInteraction.UseGlobal);
             commands[0] = new OverlapSphereCommand(position, radius, parameters);
         
-            OverlapSphereCommand
-                .ScheduleBatch(commands, collidersHitForOverlap, COMMAND_BATCH_SIZE, COMMAND_BATCH_COUNT)
-                .Complete();
-        
-            return collidersHitForOverlap[0].collider != null;
+            var handle = OverlapSphereCommand
+                .ScheduleBatch(commands, collidersHitForOverlap, COMMAND_BATCH_SIZE, COMMAND_BATCH_COUNT);
+            handle.Complete();
+
+            var isHit = collidersHitForOverlap[0].collider != null;
+
+            commands.Dispose();
+            collidersHitForOverlap.Dispose();
+
+            return isHit;
         }
 
         public RaycastHit GetRaycastHit(Vector3 from, Vector3 direction, float distance, int searchLayerMask)
@@ -32,11 +37,16 @@ namespace Game.Services.OverlapService.Impl
             var parameters = new QueryParameters(searchLayerMask, hitTriggers: QueryTriggerInteraction.UseGlobal);
             commands[0] = new RaycastCommand(from, direction, parameters, distance);
         
-            RaycastCommand
-                .ScheduleBatch(commands, collidersHits, COMMAND_BATCH_SIZE, COMMAND_BATCH_COUNT)
-                .Complete();
+            var handle = RaycastCommand
+                .ScheduleBatch(commands, collidersHits, COMMAND_BATCH_SIZE, COMMAND_BATCH_COUNT);
+            handle.Complete();
 
-            return collidersHits[0];
+            var hit = collidersHits[0];
+
+            commands.Dispose();
+            collidersHits.Dispose();
+
+            return hit;
         }
     }
 }

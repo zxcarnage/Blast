@@ -26,3 +26,5 @@ MonoBehaviour:
     type: 2}
   <EnemyParameters>k__BackingField: {fileID: 11400000, guid: 80e60d083b40a444c8f9c38c07bfa022,
     type: 2}
+  <HealthbarParameters>k__BackingField: {fileID: 11400000, guid: 04874d647cdac544c901c9585d82f885,
+    type: 2}
