@@ -17,7 +17,6 @@ namespace Ecs.Game.Systems.Shooting
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class ShootingSystem : ISystem
     {
-        private readonly IPlayerShootingParameters _playerShootingParameters;
         private readonly IOverlapService _overlapService;
         public World World { get; set; }
 
@@ -28,13 +27,12 @@ namespace Ecs.Game.Systems.Shooting
         private Stash<TransformComponent> _transformStash;
         private Stash<HitComponent> _hitStash;
         private Stash<ShootComponent> _shootStash;
+        private Stash<DamageComponent> _damageStash;
 
         public ShootingSystem(
-            IPlayerShootingParameters playerShootingParameters,
             IOverlapService overlapService
         )
         {
-            _playerShootingParameters = playerShootingParameters;
             _overlapService = overlapService;
         }
 
@@ -57,6 +55,7 @@ namespace Ecs.Game.Systems.Shooting
             _transformStash = World.GetStash<TransformComponent>();
             _hitStash = World.GetStash<HitComponent>();
             _shootStash = World.GetStash<ShootComponent>();
+            _damageStash = World.GetStash<DamageComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -82,8 +81,10 @@ namespace Ecs.Game.Systems.Shooting
                     
                     if(enemyEntity == null)
                         continue;
-                    
-                    _hitStash.Set(enemyEntity!.Value, new HitComponent { Value = _playerShootingParameters.Damage });
+
+                    var damage = _damageStash.Get(playerEntity).Value;
+                                 
+                    _hitStash.Set(enemyEntity!.Value, new HitComponent { Value = damage });
                 }
                 
                 _shootStash.Remove(playerEntity);

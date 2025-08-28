@@ -10,7 +10,7 @@ namespace Ecs.Utils
 {
     public static class WorldExtension
     {
-        public static void CreatePlayer(this World world, PlayerView playerView, float maxHealth)
+        public static void CreatePlayer(this World world, PlayerView playerView, float maxHealth, float damage, float speed)
         {
             var player = world.Filter.With<PlayerComponent>().Build().First();
             
@@ -21,6 +21,8 @@ namespace Ecs.Utils
             world.GetStash<PlayerSkillpointComponent>().Set(player, new PlayerSkillpointComponent() { Value = 0 /*TODO: TEMP, LATER REIMPLEMENT WITH SAVINGS*/ });
             world.GetStash<MaxHealthComponent>().Set(player, new MaxHealthComponent() { Value = maxHealth /*TODO: TEMP, LATER REIMPLEMENT WITH SAVINGS*/ });
             world.GetStash<HealthComponent>().Set(player, new HealthComponent() { Value = maxHealth /*TODO: TEMP, LATER REIMPLEMENT WITH SAVINGS*/ });
+            world.GetStash<DamageComponent>().Set(player, new DamageComponent() { Value = damage /*TODO: TEMP, LATER REIMPLEMENT WITH SAVINGS*/ });
+            world.GetStash<SpeedComponent>().Set(player, new SpeedComponent() { Value = speed /*TODO: TEMP, LATER REIMPLEMENT WITH SAVINGS*/ });
         }
 
         public static Entity CreateTimer(this World world)

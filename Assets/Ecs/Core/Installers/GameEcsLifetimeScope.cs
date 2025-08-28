@@ -37,6 +37,8 @@ namespace Ecs.Core.Installers
             builder.Register<EnemyDamageHandlerSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyDeathSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UpgradeHealthSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UpgradeDamageSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UpgradeSpeedSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

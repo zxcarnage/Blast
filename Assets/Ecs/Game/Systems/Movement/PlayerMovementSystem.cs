@@ -14,6 +14,7 @@ namespace Ecs.Game.Systems.Movement
         private Stash<MoveDirectionComponent> _moveDirectionStash;
         private Stash<RigidbodyComponent> _rigidbodyStash;
         private Stash<TransformComponent> _transformStash;
+        private Stash<SpeedComponent> _speedStash;
         
         public World World { get; set; }
 
@@ -29,6 +30,8 @@ namespace Ecs.Game.Systems.Movement
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _rigidbodyStash = World.GetStash<RigidbodyComponent>();
             _transformStash = World.GetStash<TransformComponent>();
+            _speedStash = World.GetStash<SpeedComponent>();
+            
             _playerFilter = World.Filter
                 .With<PlayerComponent>()
                 .With<MoveDirectionComponent>()
@@ -54,7 +57,8 @@ namespace Ecs.Game.Systems.Movement
                 var localDirection = new Vector3(direction.Value.x, 0f, direction.Value.z);
                 var worldDirection = transform.Value.TransformDirection(localDirection);
                 var currentYVelocity = rigidbody.Value.velocity.y;
-                var targetVelocity = worldDirection * _playerMovementParameters.Speed;
+                var speed = _speedStash.Get(player).Value;
+                var targetVelocity = worldDirection * speed;
                 targetVelocity.y = currentYVelocity;
                 
                 rigidbody.Value.velocity = targetVelocity;

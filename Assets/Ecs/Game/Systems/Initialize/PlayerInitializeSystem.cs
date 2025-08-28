@@ -9,30 +9,31 @@ namespace Ecs.Game.Systems.Initialize
     public class PlayerInitializeSystem : IInitializer
     {
         private readonly IPlayerBasicParameters _playerBasicParameters;
+        private readonly IPlayerMovementParameters _playerMovementParameters;
+        private readonly IPlayerShootingParameters _playerShootingParameters;
         private readonly IGameFieldProvider _gameFieldProvider;
-        private readonly IObjectResolver _resolver;
 
         public World World { get; set; }
 
         public PlayerInitializeSystem(
             IGameFieldProvider gameFieldProvider,
             IPlayerBasicParameters playerBasicParameters,
-            IObjectResolver resolver
+            IPlayerMovementParameters playerMovementParameters,
+            IPlayerShootingParameters playerShootingParameters
         )
         {
             _gameFieldProvider = gameFieldProvider;
             _playerBasicParameters = playerBasicParameters;
-            _resolver = resolver;
+            _playerMovementParameters = playerMovementParameters;
+            _playerShootingParameters = playerShootingParameters;
         }
 
         public void OnAwake()
         {
             var playerView = _gameFieldProvider.GameField.Player;
             
-            World.CreatePlayer(playerView, _playerBasicParameters.Health);
+            World.CreatePlayer(playerView, _playerBasicParameters.Health, _playerShootingParameters.Damage, _playerMovementParameters.Speed);
             World.CreatePlayerHead(playerView);
-            
-            _resolver.Inject(playerView);
         }
 
         public void Dispose()
