@@ -821,6 +821,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3552385224104088643}
+  - component: {fileID: 6862608037789058897}
   m_Layer: 5
   m_Name: LevelTextContainer
   m_TagString: Untagged
@@ -848,6 +849,19 @@ RectTransform:
   m_AnchoredPosition: {x: -260.01965, y: -143.71}
   m_SizeDelta: {x: 520.0393, y: 180.70618}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6862608037789058897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7375044510598109462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd712c938384cdfada7d2c68a9adb08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelText: {fileID: 553229643793825282}
 --- !u!1 &7770874389186248252
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,7 +913,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7770874389186248252}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -992,6 +1006,7 @@ MonoBehaviour:
   _menuCanvasGroup: {fileID: 3445191000312646202}
   _upgradeButton: {fileID: 8907412207287930132}
   _backButton: {fileID: 3577548526790266399}
+  _levelView: {fileID: 6862608037789058897}
 --- !u!114 &8029368538580887725
 MonoBehaviour:
   m_ObjectHideFlags: 0

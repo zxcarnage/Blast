@@ -35,12 +35,22 @@ namespace Utils.Transaction.Impls
             return CurrentValue;
         }
 
+        public T Decrease(T delta)
+        {
+            EnsureStarted();
+            var next = _deltaApplier.Decrease(CurrentValue, delta);
+            IsDirty = true;
+            CurrentValue = next;
+            return CurrentValue;
+        }
+
         public T Commit()
         {
             EnsureStarted();
+            var delta = _deltaApplier.Decrease(CurrentValue, _initialValue);
             _initialValue = CurrentValue;
             IsDirty = false;
-            return _initialValue;
+            return delta;
         }
 
         public T Revert()

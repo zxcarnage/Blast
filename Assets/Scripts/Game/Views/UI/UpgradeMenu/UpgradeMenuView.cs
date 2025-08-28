@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Config.UpgradeData;
 using Ecs.Game.Components.Player;
-using Ecs.Game.Components.UI;
 using Ecs.Game.Components.Upgrade;
 using Game.Utils.UI;
 using R3;
@@ -27,11 +25,15 @@ namespace Game.Views.UI.UpgradeMenu
         
         [SerializeField]
         private ButtonR3View _backButton;
+        
+        [SerializeField]
+        private LevelView _levelView;
 
         [SerializeField]
         private Dictionary<EUpgradeType, UpgradeItemView> _upgradeItemViews;
         
         private Dictionary<EUpgradeType, ITransaction<int>> _upgradeItemData = new();
+        private ITransaction<int> _levelTransaction;
         private IUpgradeDataParameters _upgradeDataParameters;
         private World _world;
 
@@ -52,7 +54,7 @@ namespace Game.Views.UI.UpgradeMenu
             _upgradeDataParameters = upgradeDataParameters;
             _world = world;
         }
-        
+
         private void OnEnable()
         {
             Subscribe();
@@ -63,7 +65,6 @@ namespace Game.Views.UI.UpgradeMenu
                 .Build();
             
             //TODO: Take savings
-            
             foreach (var (upgradeType, upgradeItemView) in _upgradeItemViews)
             {
                 InitializeItem(upgradeType, upgradeItemView);
@@ -86,6 +87,8 @@ namespace Game.Views.UI.UpgradeMenu
                 _upgradeItemData.Add(upgradeType, transaction);
             }
 
+            
+
             void GetStashes()
             {
                 _applyHealthUpgradeStash = _world.GetStash<ApplyHealthUpgradeComponent>();
@@ -94,12 +97,14 @@ namespace Game.Views.UI.UpgradeMenu
                 _playerSkillpointStash = _world.GetStash<PlayerSkillpointComponent>();
             }
         }
+        
 
         private void OnUpgradeButton(EUpgradeType upgradeType, UpgradeItemView upgradeItemView)
         {
             var targetTransaction = _upgradeItemData[upgradeType];
             var currentValue = targetTransaction.Add(ConstValues.LEVEL_UP_DELTA);
             upgradeItemView.UpdateView(currentValue);
+            DecreaseLevel();
             ValidateLevels();
         }
 
@@ -114,7 +119,10 @@ namespace Game.Views.UI.UpgradeMenu
                 var targetLevel = transaction.Commit();
                 foreach (var playerEntity in _playerFilter)
                 {
-                    ApplyUpgrade(type, targetLevel, playerEntity);
+                    ApplyUpgrade(type, targetLevel, playerEntity); 
+                    _levelTransaction.Commit();
+                    _playerSkillpointStash.Set(playerEntity,
+                        new PlayerSkillpointComponent() { Value = _levelTransaction.CurrentValue });
                 }
             }
             ChangeState(EUpgradeWindowState.Hidden);
@@ -138,6 +146,12 @@ namespace Game.Views.UI.UpgradeMenu
             }
         }
 
+        private void DecreaseLevel()
+        {
+            _levelTransaction.Decrease(ConstValues.LEVEL_DECREASE_DELTA);
+            _levelView.UpdateView(_levelTransaction.CurrentValue);
+        }
+
         private void HideView()
         {
             foreach (var (type, transaction) in _upgradeItemData)
@@ -146,20 +160,21 @@ namespace Game.Views.UI.UpgradeMenu
                 _upgradeItemViews[type].UpdateView(transaction.CurrentValue);
             }
 
+            _levelTransaction.Revert();
             ValidateLevels();
             ChangeState(EUpgradeWindowState.Hidden);
         }
-        
+
         private void ValidateLevels()
         {
             foreach (var (type, transaction) in _upgradeItemData)
             {
                 var currentSkillLevel = transaction.CurrentValue;
-                var isLevelValid = _upgradeDataParameters.MaxLevels[type].MaxLevel > currentSkillLevel;
+                var isLevelValid = _upgradeDataParameters.MaxLevels[type].MaxLevel > currentSkillLevel && _levelTransaction.CurrentValue > 0;
                 _upgradeItemViews[type].ChangeButtonState(isLevelValid);
             }
         }
-        
+
         public void ChangeState(EUpgradeWindowState state) //TODO: Only prototyping
         {
             var shown = state == EUpgradeWindowState.Shown;
@@ -170,8 +185,20 @@ namespace Game.Views.UI.UpgradeMenu
 
             if (!shown)
                 return;
-
+            
+            InitializeLevelTransaction();
             ValidateLevels();
+        }
+        
+        private void InitializeLevelTransaction()
+        {
+            foreach (var playerEntity in _playerFilter)
+            {
+                _levelTransaction = new Transaction<int>(new IntDeltaApplier());
+                var currentPlayerLevel = _playerSkillpointStash.Get(playerEntity).Value;
+                _levelTransaction.SaveBackup(currentPlayerLevel);
+                _levelView.UpdateView(_levelTransaction!.CurrentValue);
+            }
         }
     }
 }
