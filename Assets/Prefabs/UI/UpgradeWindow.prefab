@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 5918881220325550125}
   - component: {fileID: 1344597984910792408}
   - component: {fileID: 4232878123053420035}
-  - component: {fileID: 974060058448388372}
+  - component: {fileID: 3577548526790266399}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -664,7 +664,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &974060058448388372
+--- !u!114 &3577548526790266399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -673,11 +673,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5181982197068266039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5a9727c37e940db80ec9c49177102f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 954449cd70a846f7ba3af3a47bde827f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 4232878123053420035}
-  _upgradeMenuView: {fileID: 5819969330758057054}
 --- !u!1 &6086189407173072290
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +689,7 @@ GameObject:
   - component: {fileID: 5467812479705528416}
   - component: {fileID: 8628452533451199646}
   - component: {fileID: 6816391112057066641}
+  - component: {fileID: 8907412207287930132}
   m_Layer: 5
   m_Name: AcceptButton
   m_TagString: Untagged
@@ -799,6 +799,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8907412207287930132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6086189407173072290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 954449cd70a846f7ba3af3a47bde827f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 6816391112057066641}
 --- !u!1 &7375044510598109462
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +845,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -260.01965, y: -90.35315}
+  m_AnchoredPosition: {x: -260.01965, y: -143.71}
   m_SizeDelta: {x: 520.0393, y: 180.70618}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7770874389186248252
@@ -886,7 +899,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7770874389186248252}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -902,7 +915,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beeebea949254cf8b5be0921abc74316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 2351663721151862395}
+    - {fileID: 3433682339954897060}
+    - {fileID: 5226244628576984177}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _upgradeItemViews
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[Utils.UI.EUpgradeType, Assembly-CSharp],[Game.Views.UI.UpgradeMenu.UpgradeItemView,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Utils.UI.EUpgradeType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _menuCanvasGroup: {fileID: 3445191000312646202}
+  _upgradeButton: {fileID: 8907412207287930132}
+  _backButton: {fileID: 3577548526790266399}
 --- !u!114 &8029368538580887725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1090,6 +1179,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87da311d9ac616f4a88c7dbd428c57df, type: 3}
+--- !u!114 &2351663721151862395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2371474547940539414, guid: 87da311d9ac616f4a88c7dbd428c57df,
+    type: 3}
+  m_PrefabInstance: {fileID: 21359356579555949}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb1fcfca6114410ac368777eb0b244d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2560811020148638595 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2576681545139202542, guid: 87da311d9ac616f4a88c7dbd428c57df,
@@ -1281,6 +1382,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1103320800840846514}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3433682339954897060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2371474547940539414, guid: 87da311d9ac616f4a88c7dbd428c57df,
+    type: 3}
+  m_PrefabInstance: {fileID: 1103320800840846514}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb1fcfca6114410ac368777eb0b244d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7525077670820831335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1460,6 +1573,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87da311d9ac616f4a88c7dbd428c57df, type: 3}
+--- !u!114 &5226244628576984177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2371474547940539414, guid: 87da311d9ac616f4a88c7dbd428c57df,
+    type: 3}
+  m_PrefabInstance: {fileID: 7525077670820831335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb1fcfca6114410ac368777eb0b244d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5452808509570435465 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2576681545139202542, guid: 87da311d9ac616f4a88c7dbd428c57df,

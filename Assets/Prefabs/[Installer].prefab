@@ -49,7 +49,8 @@ MonoBehaviour:
   parentReference:
     TypeName: Installers.GameParametersInstaller
   autoRun: 1
-  autoInjectGameObjects: []
+  autoInjectGameObjects:
+  - {fileID: 0}
   _gameField: {fileID: 0}
 --- !u!114 &1443681163967696137
 MonoBehaviour:

@@ -8,6 +8,7 @@ using Ecs.Game.Systems.Input;
 using Ecs.Game.Systems.Movement;
 using Ecs.Game.Systems.Shooting;
 using Ecs.Game.Systems.Timer;
+using Ecs.Game.Systems.UI;
 using VContainer;
 using VContainer.Unity;
 
@@ -35,6 +36,7 @@ namespace Ecs.Core.Installers
             builder.Register<ShootingSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyDamageHandlerSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyDeathSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UpgradeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }
