@@ -35,7 +35,6 @@ namespace Ecs.Game.Systems.Initialize
             foreach (var playerHealthbarEntity in _playerHealthbarFilter)
             {
                 var healthbarView = _healthbarStash.Get(playerHealthbarEntity).Value;
-                _objectResolver.Inject(healthbarView);
                 healthbarView.UpdateView(_playerBasicParameters.Health);
             }
         }

@@ -2,8 +2,10 @@
 {
     public interface ITransaction<T>
     {
+        T CurrentValue { get; }
+        bool IsDirty { get; }
         void SaveBackup(T initial);
-        void Add(T delta);
+        T Add(T delta);
         T Commit();
         T Revert();
     }

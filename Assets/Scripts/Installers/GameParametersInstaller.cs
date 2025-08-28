@@ -21,6 +21,7 @@ namespace Installers
             builder.RegisterInstance(_generalBase.EnemyParameters).AsImplementedInterfaces();
             builder.RegisterInstance(_generalBase.HealthbarParameters).AsImplementedInterfaces();
             builder.RegisterInstance(_generalBase.PlayerBasicParameters).AsImplementedInterfaces();
+            builder.RegisterInstance(_generalBase.UpgradeDataParameters).AsImplementedInterfaces();
         }
     }
 }

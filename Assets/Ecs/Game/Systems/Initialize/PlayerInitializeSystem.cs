@@ -1,4 +1,5 @@
-﻿using Ecs.Utils;
+﻿using Config.Player;
+using Ecs.Utils;
 using Scellecs.Morpeh;
 using Utils.Providers.GameField;
 using VContainer;
@@ -7,6 +8,7 @@ namespace Ecs.Game.Systems.Initialize
 {
     public class PlayerInitializeSystem : IInitializer
     {
+        private readonly IPlayerBasicParameters _playerBasicParameters;
         private readonly IGameFieldProvider _gameFieldProvider;
         private readonly IObjectResolver _resolver;
 
@@ -14,10 +16,12 @@ namespace Ecs.Game.Systems.Initialize
 
         public PlayerInitializeSystem(
             IGameFieldProvider gameFieldProvider,
+            IPlayerBasicParameters playerBasicParameters,
             IObjectResolver resolver
         )
         {
             _gameFieldProvider = gameFieldProvider;
+            _playerBasicParameters = playerBasicParameters;
             _resolver = resolver;
         }
 
@@ -25,7 +29,7 @@ namespace Ecs.Game.Systems.Initialize
         {
             var playerView = _gameFieldProvider.GameField.Player;
             
-            World.CreatePlayer(playerView);
+            World.CreatePlayer(playerView, _playerBasicParameters.Health);
             World.CreatePlayerHead(playerView);
             
             _resolver.Inject(playerView);

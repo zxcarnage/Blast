@@ -9,37 +9,45 @@ namespace Utils.Transaction.Impls
         private bool _hasBackup;
         
         private T _initialValue;
-        private T _currentValue;
 
         public Transaction(IDeltaApplier<T> deltaApplier)
         {
             _deltaApplier = deltaApplier;
         }
 
+        public T CurrentValue { get; private set; }
+        public bool IsDirty { get; private set; }
+
         public void SaveBackup(T initial)
         {
             _initialValue = initial;
-            _currentValue = initial;
+            CurrentValue = initial;
             _hasBackup = true;
+            IsDirty = false;
         }
 
-        public void Add(T delta)
+        public T Add(T delta)
         {
             EnsureStarted();
-            _currentValue = _deltaApplier.Add(_currentValue, delta);
+            var next = _deltaApplier.Add(CurrentValue, delta);
+            IsDirty = true;
+            CurrentValue = next;
+            return CurrentValue;
         }
 
         public T Commit()
         {
             EnsureStarted();
-            _initialValue = _currentValue;
+            _initialValue = CurrentValue;
+            IsDirty = false;
             return _initialValue;
         }
 
         public T Revert()
         {
             EnsureStarted();
-            _currentValue = _initialValue;
+            CurrentValue = _initialValue;
+            IsDirty = false;
             return _initialValue;
         }
 
