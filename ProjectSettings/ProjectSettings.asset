@@ -141,7 +141,8 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 11400000, guid: f079fb5020f1fee4f99418dca1dc954e, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -811,7 +812,23 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: MORPEH_BURST;MORPEH
+    Android: DOTWEEN;ODIN_VALIDATOR;ODIN_VALIDATOR_3_1;ODIN_VALIDATOR_3_2;ODIN_VALIDATOR_3_3;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;MORPEH_BURST
+    EmbeddedLinux: DOTWEEN
+    GameCoreScarlett: DOTWEEN
+    GameCoreXboxOne: DOTWEEN
+    LinuxHeadlessSimulation: DOTWEEN
+    Nintendo Switch: DOTWEEN
+    PS4: DOTWEEN
+    PS5: DOTWEEN
+    QNX: DOTWEEN
+    Stadia: DOTWEEN
+    Standalone: MORPEH_BURST;MORPEH;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;ODIN_VALIDATOR;ODIN_VALIDATOR_3_1;ODIN_VALIDATOR_3_2;ODIN_VALIDATOR_3_3;DOTWEEN
+    VisionOS: DOTWEEN
+    WebGL: DOTWEEN
+    Windows Store Apps: DOTWEEN
+    XboxOne: DOTWEEN
+    iPhone: DOTWEEN
+    tvOS: DOTWEEN
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -918,7 +935,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: b597d1b7-41c2-4a00-94df-78f0331f80f3
   framebufferDepthMemorylessMode: 0
