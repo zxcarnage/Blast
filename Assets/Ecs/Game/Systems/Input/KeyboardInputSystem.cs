@@ -2,7 +2,6 @@
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
 using Ecs.Game.Components.UI;
-using Game.Utils.UI;
 using R3;
 using ReactiveInputSystem;
 using Scellecs.Morpeh;

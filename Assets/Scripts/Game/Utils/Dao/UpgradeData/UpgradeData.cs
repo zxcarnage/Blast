@@ -1,6 +1,6 @@
 ﻿using Utils.UI;
 
-namespace Game.Utils.UpgradeData
+namespace Game.Utils.Dao.UpgradeData
 {
     [System.Serializable]
     public struct UpgradeData

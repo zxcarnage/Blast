@@ -6,7 +6,6 @@ using Ecs.Game.Components.Upgrade;
 using Game.Utils.Dao;
 using Game.Utils.Dao.UpgradeData;
 using Game.Utils.UI;
-using Game.Utils.UpgradeData;
 using R3;
 using Scellecs.Morpeh;
 using Sirenix.OdinInspector;
@@ -19,6 +18,7 @@ using VContainer;
 
 namespace Game.Views.UI.UpgradeMenu
 {
+    //TODO: More seems like a god-class, there is so much ways to refactor this, and this impl allowed ONLY for prototype
     public class UpgradeMenuView : SerializedMonoBehaviour //TODO: Only prototyping in real-world needed VC-system
     {
         [SerializeField] 

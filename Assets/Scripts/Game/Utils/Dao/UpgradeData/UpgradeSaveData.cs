@@ -3,6 +3,6 @@
     [System.Serializable]
     public class UpgradeSaveData
     {
-        public Utils.UpgradeData.UpgradeData[] UpgradeDatas;
+        public UpgradeData[] UpgradeDatas;
     }
 }

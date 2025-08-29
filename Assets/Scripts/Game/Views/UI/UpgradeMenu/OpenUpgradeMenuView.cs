@@ -1,5 +1,4 @@
-﻿using Game.Utils.UI;
-using R3;
+﻿using R3;
 using UnityEngine;
 using UnityEngine.UI;
 

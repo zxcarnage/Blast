@@ -5,7 +5,6 @@ using Ecs.Game.Components.Upgrade;
 using Ecs.Utils;
 using Game.Utils.Dao;
 using Game.Utils.Dao.UpgradeData;
-using Game.Utils.UpgradeData;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using Utils.Providers.GameField;
