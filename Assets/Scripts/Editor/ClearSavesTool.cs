@@ -1,13 +1,16 @@
 using Core.Utils;
 using UnityEditor;
 
-public static class ClearSavesTool
+namespace Editor
 {
-    [MenuItem("Tools/Saves/Clear All")] 
-    private static void ClearAll()
+    public static class ClearSavesTool
     {
-        SavesCleaner.DeleteAllSaveFiles();
-        EditorUtility.DisplayDialog("Clear Saves", "Все сохранения удалены.", "OK");
+        [MenuItem("Tools/Saves/Clear All")] 
+        private static void ClearAll()
+        {
+            SavesCleaner.DeleteAllSaveFiles();
+            EditorUtility.DisplayDialog("Clear Saves", "Все сохранения удалены.", "OK");
+        }
     }
 }
 
