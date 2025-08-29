@@ -1,8 +1,10 @@
-﻿using Ecs.Game.Components;
+﻿using Core.Dao;
+using Ecs.Game.Components;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Player;
 using Game.Services.Pool.Enemy;
+using Game.Utils.Dao;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -14,6 +16,7 @@ namespace Ecs.Game.Systems.Character
     public sealed class EnemyDeathSystem : ISystem
     {
         private readonly IEnemyPool _enemyPool;
+        private readonly IDao<LevelSaveData> _levelDao;
 
         private Filter _deadEnemyFilter;
         private Filter _playerFilter;
@@ -25,10 +28,12 @@ namespace Ecs.Game.Systems.Character
         public World World { get; set; }
         
         public EnemyDeathSystem(
-            IEnemyPool enemyPool
+            IEnemyPool enemyPool,
+            IDao<LevelSaveData> levelDao
         )
         {
             _enemyPool = enemyPool;
+            _levelDao = levelDao;
         }
 
         public void OnAwake()
@@ -69,6 +74,7 @@ namespace Ecs.Game.Systems.Character
                     var currentSkillpoints = _skillpointStash.Get(playerEntity).Value;
                     
                     _skillpointStash.Set(playerEntity, new PlayerSkillpointComponent() { Value = currentSkillpoints + 1 });
+                    _levelDao.Save(new LevelSaveData() { Level = currentSkillpoints + 1 });
                 }
             }
         }
