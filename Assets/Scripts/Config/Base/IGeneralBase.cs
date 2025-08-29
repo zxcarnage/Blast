@@ -6,7 +6,6 @@ using Config.Enemy.Impl;
 using Config.Player.Impl;
 using Config.UI.Healthbar.Impl;
 using Config.UpgradeData.Impl;
-using Game.Views.UI.UpgradeMenu;
 
 namespace Config.Base
 {

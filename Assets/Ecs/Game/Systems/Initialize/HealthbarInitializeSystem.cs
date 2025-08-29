@@ -2,7 +2,6 @@
 using Ecs.Game.Components.UI;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using VContainer;
 
 namespace Ecs.Game.Systems.Initialize
 {

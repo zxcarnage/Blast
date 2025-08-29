@@ -5,7 +5,6 @@ using Ecs.Game.Components.UI;
 using Ecs.Game.Components.Upgrade;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using Utils.DebugUtil;
 using Utils.UI;
 
 namespace Ecs.Game.Systems.UI
