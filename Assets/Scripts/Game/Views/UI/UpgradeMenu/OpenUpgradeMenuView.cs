@@ -1,5 +1,4 @@
-﻿using Game.Utils.UI;
-using R3;
+﻿using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +19,7 @@ namespace Game.Views.UI.UpgradeMenu
         
         private void OnClick()
         {
-            _upgradeMenuView.ChangeState(EUpgradeWindowState.Shown); 
+            _upgradeMenuView.ShowView(); 
         }
     }
 }

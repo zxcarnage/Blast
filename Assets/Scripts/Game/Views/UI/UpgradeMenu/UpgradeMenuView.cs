@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using Config.UpgradeData;
+using Core.Dao;
 using Ecs.Game.Components.Player;
 using Ecs.Game.Components.Upgrade;
+using Game.Utils.Dao;
+using Game.Utils.Dao.UpgradeData;
 using Game.Utils.UI;
 using R3;
 using Scellecs.Morpeh;
@@ -15,6 +18,7 @@ using VContainer;
 
 namespace Game.Views.UI.UpgradeMenu
 {
+    //TODO: More seems like a god-class, there is so much ways to refactor this, and this impl allowed ONLY for prototype
     public class UpgradeMenuView : SerializedMonoBehaviour //TODO: Only prototyping in real-world needed VC-system
     {
         [SerializeField] 
@@ -43,15 +47,21 @@ namespace Game.Views.UI.UpgradeMenu
         private Stash<ApplyDamageUpgradeComponent> _applyDamageUpgradeStash;
         private Stash<ApplySpeedUpgradeComponent> _applySpeedUpgradeStash;
         private Stash<PlayerSkillpointComponent> _playerSkillpointStash;
+        private IDao<UpgradeSaveData> _upgradeSaveDao;
+        private IDao<LevelSaveData> _levelSaveDao;
 
 
         [Inject]
         private void Construct(
             World world,
-            IUpgradeDataParameters upgradeDataParameters
+            IUpgradeDataParameters upgradeDataParameters,
+            IDao<UpgradeSaveData> upgradeSaveDao,
+            IDao<LevelSaveData> levelSaveDao
         )
         {
             _upgradeDataParameters = upgradeDataParameters;
+            _upgradeSaveDao = upgradeSaveDao;
+            _levelSaveDao = levelSaveDao;
             _world = world;
         }
 
@@ -69,6 +79,8 @@ namespace Game.Views.UI.UpgradeMenu
             {
                 InitializeItem(upgradeType, upgradeItemView);
             }
+            
+            _levelTransaction = new Transaction<int>(new IntDeltaApplier());
 
             return;
 
@@ -97,7 +109,47 @@ namespace Game.Views.UI.UpgradeMenu
                 _playerSkillpointStash = _world.GetStash<PlayerSkillpointComponent>();
             }
         }
-        
+
+        private void Start()
+        {
+            InitializeSavings();
+
+            return;
+
+            void InitializeSavings()
+            {
+                TryInitializeUpgradeSavings();
+                TryInitializeLevelSavings();
+                
+                return;
+
+                void TryInitializeUpgradeSavings()
+                {
+                    var saveData = _upgradeSaveDao.Load();
+
+                    if (saveData?.UpgradeDatas == null)
+                        return;
+                
+                    foreach (var data in saveData.UpgradeDatas)
+                    {
+                        var targetTransaction = _upgradeItemData[data.UpgradeType];
+                        targetTransaction.SaveBackup(data.Level);
+                    }
+                }
+
+                void TryInitializeLevelSavings()
+                {
+                    var saveData = _levelSaveDao.Load();
+                    
+                    if (saveData == null)
+                        return;
+
+                    _levelTransaction.SaveBackup(saveData.Level);
+                }
+                
+            }
+        }
+
 
         private void OnUpgradeButton(EUpgradeType upgradeType, UpgradeItemView upgradeItemView)
         {
@@ -110,9 +162,11 @@ namespace Game.Views.UI.UpgradeMenu
 
         private void TryApplyUpgrade()
         {
-            //TODO: Delete and check logic
+            var saveData = new List<UpgradeData>();
             foreach (var (type, transaction) in _upgradeItemData)
             {
+                saveData.Add(new UpgradeData() { UpgradeType = type, Level = transaction.CurrentValue });
+                
                 if (!transaction.IsDirty)
                     continue;
 
@@ -125,24 +179,26 @@ namespace Game.Views.UI.UpgradeMenu
                         new PlayerSkillpointComponent() { Value = _levelTransaction.CurrentValue });
                 }
             }
+
+            var upgradeSaveData = new UpgradeSaveData() { UpgradeDatas = saveData.ToArray() };
+            _upgradeSaveDao.Save(upgradeSaveData);
+            _levelSaveDao.Save(new LevelSaveData() { Level = _levelTransaction.CurrentValue });
             ChangeState(EUpgradeWindowState.Hidden);
-
-            return;
-
-            void ApplyUpgrade(EUpgradeType type, int targetLevel, Entity player)
+        }
+        
+        private void ApplyUpgrade(EUpgradeType type, int targetLevel, Entity player)
+        {
+            switch (type)
             {
-                switch (type)
-                {
-                    case EUpgradeType.Health:
-                        _applyHealthUpgradeStash.Set(player, new ApplyHealthUpgradeComponent() { Value = targetLevel });
-                        break;
-                    case EUpgradeType.Damage:
-                        _applyDamageUpgradeStash.Set(player, new ApplyDamageUpgradeComponent() { Value = targetLevel });
-                        break;
-                    case EUpgradeType.Speed:
-                        _applySpeedUpgradeStash.Set(player, new ApplySpeedUpgradeComponent() { Value = targetLevel });
-                        break;
-                }
+                case EUpgradeType.Health:
+                    _applyHealthUpgradeStash.Set(player, new ApplyHealthUpgradeComponent() { Value = targetLevel });
+                    break;
+                case EUpgradeType.Damage:
+                    _applyDamageUpgradeStash.Set(player, new ApplyDamageUpgradeComponent() { Value = targetLevel });
+                    break;
+                case EUpgradeType.Speed:
+                    _applySpeedUpgradeStash.Set(player, new ApplySpeedUpgradeComponent() { Value = targetLevel });
+                    break;
             }
         }
 
@@ -150,6 +206,16 @@ namespace Game.Views.UI.UpgradeMenu
         {
             _levelTransaction.Decrease(ConstValues.LEVEL_DECREASE_DELTA);
             _levelView.UpdateView(_levelTransaction.CurrentValue);
+        }
+
+        public void ShowView()
+        {
+            foreach (var (type, transaction) in _upgradeItemData)
+            {
+                _upgradeItemViews[type].UpdateView(transaction.CurrentValue);
+            }
+
+            ChangeState(EUpgradeWindowState.Shown);
         }
 
         private void HideView()
@@ -175,7 +241,7 @@ namespace Game.Views.UI.UpgradeMenu
             }
         }
 
-        public void ChangeState(EUpgradeWindowState state) //TODO: Only prototyping
+        private void ChangeState(EUpgradeWindowState state) //TODO: Only prototyping
         {
             var shown = state == EUpgradeWindowState.Shown;
             Cursor.visible = shown;
@@ -194,7 +260,6 @@ namespace Game.Views.UI.UpgradeMenu
         {
             foreach (var playerEntity in _playerFilter)
             {
-                _levelTransaction = new Transaction<int>(new IntDeltaApplier());
                 var currentPlayerLevel = _playerSkillpointStash.Get(playerEntity).Value;
                 _levelTransaction.SaveBackup(currentPlayerLevel);
                 _levelView.UpdateView(_levelTransaction!.CurrentValue);
