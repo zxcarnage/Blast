@@ -106,7 +106,7 @@ namespace Ecs.Game.Systems.Input
             foreach (var entity in _upgradeMenuFilter)
             {
                 var upgradeMenuView = _upgradeMenuStash.Get(entity).Value;
-                upgradeMenuView.ChangeState(EUpgradeWindowState.Shown);
+                upgradeMenuView.ShowView();
             }
         }
 

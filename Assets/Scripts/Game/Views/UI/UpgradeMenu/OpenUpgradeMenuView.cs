@@ -20,7 +20,7 @@ namespace Game.Views.UI.UpgradeMenu
         
         private void OnClick()
         {
-            _upgradeMenuView.ChangeState(EUpgradeWindowState.Shown); 
+            _upgradeMenuView.ShowView(); 
         }
     }
 }
