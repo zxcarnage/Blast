@@ -3,8 +3,8 @@ using Core.Utils;
 using Game.Services.Factory.Enemy.Impl;
 using Game.Services.OverlapService.Impl;
 using Game.Services.Pool.Enemy.Impls;
-using Game.Services.Savings.Impl;
-using Game.Utils.UpgradeData;
+using Game.Utils.Dao;
+using Game.Utils.Dao.UpgradeData;
 using Game.Views;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -30,6 +30,7 @@ namespace Installers
         private void RegisterDao(IContainerBuilder builder)
         {
             builder.Register<LocalStorageDao<UpgradeSaveData>>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(DaoSavingPathKeys.UPGRADES);
+            builder.Register<LocalStorageDao<LevelSaveData>>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(DaoSavingPathKeys.LEVEL);
         }
 
         private void RegisterWorld(IContainerBuilder builder)
@@ -50,7 +51,6 @@ namespace Installers
             builder.Register<EnemyPool>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<OverlapService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyFactory>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<SaveUpgradesService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterInstances(IContainerBuilder builder)

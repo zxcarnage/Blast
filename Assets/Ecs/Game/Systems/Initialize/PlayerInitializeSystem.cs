@@ -1,7 +1,10 @@
 ﻿using Config.Player;
 using Core.Dao;
+using Ecs.Game.Components.Player;
 using Ecs.Game.Components.Upgrade;
 using Ecs.Utils;
+using Game.Utils.Dao;
+using Game.Utils.Dao.UpgradeData;
 using Game.Utils.UpgradeData;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -19,11 +22,13 @@ namespace Ecs.Game.Systems.Initialize
         private readonly IPlayerMovementParameters _playerMovementParameters;
         private readonly IPlayerShootingParameters _playerShootingParameters;
         private readonly IDao<UpgradeSaveData> _upgradeSaveData;
+        private readonly IDao<LevelSaveData> _levelSaveData;
         private readonly IGameFieldProvider _gameFieldProvider;
         
         private Stash<ApplyHealthUpgradeComponent> _applyHealthUpgradeStash;
         private Stash<ApplyDamageUpgradeComponent> _applyDamageUpgradeStash;
         private Stash<ApplySpeedUpgradeComponent> _applySpeedUpgradeStash;
+        private Stash<PlayerSkillpointComponent> _playerSkillpointStash;
 
         public World World { get; set; }
 
@@ -32,7 +37,8 @@ namespace Ecs.Game.Systems.Initialize
             IPlayerBasicParameters playerBasicParameters,
             IPlayerMovementParameters playerMovementParameters,
             IPlayerShootingParameters playerShootingParameters,
-            IDao<UpgradeSaveData> upgradeSaveData
+            IDao<UpgradeSaveData> upgradeSaveData,
+            IDao<LevelSaveData> levelSaveData
         )
         {
             _gameFieldProvider = gameFieldProvider;
@@ -40,6 +46,7 @@ namespace Ecs.Game.Systems.Initialize
             _playerMovementParameters = playerMovementParameters;
             _playerShootingParameters = playerShootingParameters;
             _upgradeSaveData = upgradeSaveData;
+            _levelSaveData = levelSaveData;
         }
 
         public void OnAwake()
@@ -49,6 +56,7 @@ namespace Ecs.Game.Systems.Initialize
             _applyHealthUpgradeStash = World.GetStash<ApplyHealthUpgradeComponent>();
             _applyDamageUpgradeStash = World.GetStash<ApplyDamageUpgradeComponent>();
             _applySpeedUpgradeStash = World.GetStash<ApplySpeedUpgradeComponent>();
+            _playerSkillpointStash = World.GetStash<PlayerSkillpointComponent>();
             
             var player = World.CreatePlayer(playerView, _playerBasicParameters.Health, _playerShootingParameters.Damage, _playerMovementParameters.Speed);
             InitializePlayerSavings(player);
@@ -57,25 +65,44 @@ namespace Ecs.Game.Systems.Initialize
 
         private void InitializePlayerSavings(Entity player)
         {
-            var saveData = _upgradeSaveData.Load();
 
-            if (saveData == null)
-                return;
+            TryInitializeUpgradeSavings();
+            TryInitializeLevelSavings();
+            
+            return;
 
-            foreach (var data in saveData.UpgradeDatas)
+            void TryInitializeUpgradeSavings()
             {
-                switch (data.UpgradeType)
+                var saveData = _upgradeSaveData.Load();
+
+                if (saveData?.UpgradeDatas == null)
+                    return;
+
+                foreach (var data in saveData.UpgradeDatas)
                 {
-                    case EUpgradeType.Health:
-                        _applyHealthUpgradeStash.Set(player, new ApplyHealthUpgradeComponent() { Value = data.Level });
-                        break;
-                    case EUpgradeType.Damage:
-                        _applyDamageUpgradeStash.Set(player, new ApplyDamageUpgradeComponent() { Value = data.Level });
-                        break;
-                    case EUpgradeType.Speed:
-                        _applySpeedUpgradeStash.Set(player, new ApplySpeedUpgradeComponent() { Value = data.Level });
-                        break;
+                    switch (data.UpgradeType)
+                    {
+                        case EUpgradeType.Health:
+                            _applyHealthUpgradeStash.Set(player, new ApplyHealthUpgradeComponent() { Value = data.Level });
+                            break;
+                        case EUpgradeType.Damage:
+                            _applyDamageUpgradeStash.Set(player, new ApplyDamageUpgradeComponent() { Value = data.Level });
+                            break;
+                        case EUpgradeType.Speed:
+                            _applySpeedUpgradeStash.Set(player, new ApplySpeedUpgradeComponent() { Value = data.Level });
+                            break;
+                    }
                 }
+            }
+
+            void TryInitializeLevelSavings()
+            {
+                var levelSaveData = _levelSaveData.Load();
+
+                if (levelSaveData == null)
+                    return;
+                
+                _playerSkillpointStash.Set(player, new PlayerSkillpointComponent() { Value = levelSaveData.Level });
             }
         }
 

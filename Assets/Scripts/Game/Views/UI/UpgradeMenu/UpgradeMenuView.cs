@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Config.UpgradeData;
+using Core.Dao;
 using Ecs.Game.Components.Player;
 using Ecs.Game.Components.Upgrade;
-using Game.Services.Savings;
+using Game.Utils.Dao;
+using Game.Utils.Dao.UpgradeData;
 using Game.Utils.UI;
 using Game.Utils.UpgradeData;
 using R3;
@@ -46,18 +47,21 @@ namespace Game.Views.UI.UpgradeMenu
         private Stash<ApplyDamageUpgradeComponent> _applyDamageUpgradeStash;
         private Stash<ApplySpeedUpgradeComponent> _applySpeedUpgradeStash;
         private Stash<PlayerSkillpointComponent> _playerSkillpointStash;
-        private ISaveUpgradesService _saveUpgradesService;
+        private IDao<UpgradeSaveData> _upgradeSaveDao;
+        private IDao<LevelSaveData> _levelSaveDao;
 
 
         [Inject]
         private void Construct(
             World world,
             IUpgradeDataParameters upgradeDataParameters,
-            ISaveUpgradesService saveUpgradesService
+            IDao<UpgradeSaveData> upgradeSaveDao,
+            IDao<LevelSaveData> levelSaveDao
         )
         {
             _upgradeDataParameters = upgradeDataParameters;
-            _saveUpgradesService = saveUpgradesService;
+            _upgradeSaveDao = upgradeSaveDao;
+            _levelSaveDao = levelSaveDao;
             _world = world;
         }
 
@@ -75,6 +79,8 @@ namespace Game.Views.UI.UpgradeMenu
             {
                 InitializeItem(upgradeType, upgradeItemView);
             }
+            
+            _levelTransaction = new Transaction<int>(new IntDeltaApplier());
 
             return;
 
@@ -112,16 +118,35 @@ namespace Game.Views.UI.UpgradeMenu
 
             void InitializeSavings()
             {
-                var saveData = _saveUpgradesService.Load();
-
-                if (saveData == null)
-                    return;
+                TryInitializeUpgradeSavings();
+                TryInitializeLevelSavings();
                 
-                foreach (var data in saveData.UpgradeDatas)
+                return;
+
+                void TryInitializeUpgradeSavings()
                 {
-                    var targetTransaction = _upgradeItemData[data.UpgradeType];
-                    targetTransaction.SaveBackup(data.Level);
+                    var saveData = _upgradeSaveDao.Load();
+
+                    if (saveData?.UpgradeDatas == null)
+                        return;
+                
+                    foreach (var data in saveData.UpgradeDatas)
+                    {
+                        var targetTransaction = _upgradeItemData[data.UpgradeType];
+                        targetTransaction.SaveBackup(data.Level);
+                    }
                 }
+
+                void TryInitializeLevelSavings()
+                {
+                    var saveData = _levelSaveDao.Load();
+                    
+                    if (saveData == null)
+                        return;
+
+                    _levelTransaction.SaveBackup(saveData.Level);
+                }
+                
             }
         }
 
@@ -156,7 +181,8 @@ namespace Game.Views.UI.UpgradeMenu
             }
 
             var upgradeSaveData = new UpgradeSaveData() { UpgradeDatas = saveData.ToArray() };
-            _saveUpgradesService.Save(upgradeSaveData);
+            _upgradeSaveDao.Save(upgradeSaveData);
+            _levelSaveDao.Save(new LevelSaveData() { Level = _levelTransaction.CurrentValue });
             ChangeState(EUpgradeWindowState.Hidden);
         }
         
@@ -234,7 +260,6 @@ namespace Game.Views.UI.UpgradeMenu
         {
             foreach (var playerEntity in _playerFilter)
             {
-                _levelTransaction = new Transaction<int>(new IntDeltaApplier());
                 var currentPlayerLevel = _playerSkillpointStash.Get(playerEntity).Value;
                 _levelTransaction.SaveBackup(currentPlayerLevel);
                 _levelView.UpdateView(_levelTransaction!.CurrentValue);
