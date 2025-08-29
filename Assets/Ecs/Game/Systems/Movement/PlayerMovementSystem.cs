@@ -1,15 +1,16 @@
-﻿using Config.Player;
-using Ecs.Game.Components.Character;
+﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
 namespace Ecs.Game.Systems.Movement
 {
-    public class PlayerMovementSystem : IFixedSystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class PlayerMovementSystem : IFixedSystem
     {
-        private readonly IPlayerMovementParameters _playerMovementParameters;
-
         private Filter _playerFilter;
         private Stash<MoveDirectionComponent> _moveDirectionStash;
         private Stash<RigidbodyComponent> _rigidbodyStash;
@@ -17,14 +18,7 @@ namespace Ecs.Game.Systems.Movement
         private Stash<SpeedComponent> _speedStash;
         
         public World World { get; set; }
-
-        public PlayerMovementSystem(
-            IPlayerMovementParameters playerMovementParameters    
-        )
-        {
-            _playerMovementParameters = playerMovementParameters;
-        }
-
+        
         public void OnAwake()
         {
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();

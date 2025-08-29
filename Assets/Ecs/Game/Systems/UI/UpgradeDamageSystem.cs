@@ -2,11 +2,15 @@
 using Ecs.Game.Components.Player;
 using Ecs.Game.Components.Upgrade;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Utils.DebugUtil;
 using Utils.UI;
 
 namespace Ecs.Game.Systems.UI
 {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class UpgradeDamageSystem : ISystem
     {
         private readonly IUpgradeDataParameters _upgradeDataParameters;
@@ -45,7 +49,6 @@ namespace Ecs.Game.Systems.UI
                 var damage = _damageStash.Get(playerEntity).Value;
                 var increaseValue = _upgradeDataParameters.MaxLevels[EUpgradeType.Damage].IncreaseDelta * skillLevel;
                 _damageStash.Set(playerEntity, new DamageComponent(){ Value = increaseValue + damage });
-                DebugUtility.Log($"Upgrade damage", UtilsColors.NotificationColor);
                 _applyUpgradeStash.Remove(playerEntity);
             }
         }

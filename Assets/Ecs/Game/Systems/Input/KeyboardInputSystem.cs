@@ -8,7 +8,6 @@ using ReactiveInputSystem;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Ecs.Game.Systems.Input
 {

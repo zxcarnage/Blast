@@ -1,5 +1,4 @@
-﻿using System;
-using Config.Player;
+﻿using Config.Player;
 using DG.Tweening;
 using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;

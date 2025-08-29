@@ -1,12 +1,15 @@
 ﻿using Config.Player;
 using Ecs.Utils;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Utils.Providers.GameField;
-using VContainer;
 
 namespace Ecs.Game.Systems.Initialize
 {
-    public class PlayerInitializeSystem : IInitializer
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class PlayerInitializeSystem : IInitializer
     {
         private readonly IPlayerBasicParameters _playerBasicParameters;
         private readonly IPlayerMovementParameters _playerMovementParameters;

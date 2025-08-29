@@ -2,11 +2,15 @@
 using Ecs.Game.Components.Player;
 using Ecs.Game.Components.Upgrade;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Utils.DebugUtil;
 using Utils.UI;
 
 namespace Ecs.Game.Systems.UI
 {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class UpgradeSpeedSystem : ISystem
     {
         private readonly IUpgradeDataParameters _upgradeDataParameters;
@@ -45,7 +49,6 @@ namespace Ecs.Game.Systems.UI
                 var speed = _speedStash.Get(playerEntity).Value;
                 var increaseValue = _upgradeDataParameters.MaxLevels[EUpgradeType.Speed].IncreaseDelta * skillLevel;
                 _speedStash.Set(playerEntity, new SpeedComponent(){ Value = increaseValue + speed });
-                DebugUtility.Log($"Upgrade speed", UtilsColors.NotificationColor);
                 _applyUpgradeStash.Remove(playerEntity);
             }
         }

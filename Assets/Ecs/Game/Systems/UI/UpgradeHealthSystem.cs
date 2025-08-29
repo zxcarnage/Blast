@@ -4,11 +4,15 @@ using Ecs.Game.Components.Player;
 using Ecs.Game.Components.UI;
 using Ecs.Game.Components.Upgrade;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Utils.DebugUtil;
 using Utils.UI;
 
 namespace Ecs.Game.Systems.UI
 {
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class UpgradeHealthSystem : ISystem
     {
         private readonly IUpgradeDataParameters _upgradeDataParameters;
@@ -60,7 +64,6 @@ namespace Ecs.Game.Systems.UI
                     var increaseValue = _upgradeDataParameters.MaxLevels[EUpgradeType.Health].IncreaseDelta * skillLevel;
                     _maxHealthStash.Set(playerEntity, new MaxHealthComponent(){ Value = increaseValue + currentMaxHealth });
                     healthbarView.UpdateView(health);
-                    DebugUtility.Log($"Upgrade health", UtilsColors.NotificationColor);
                 }
                 _applyUpgradeStash.Remove(playerEntity);
             }

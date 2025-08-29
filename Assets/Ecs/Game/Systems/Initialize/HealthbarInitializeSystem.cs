@@ -1,14 +1,17 @@
 ﻿using Config.Player;
 using Ecs.Game.Components.UI;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using VContainer;
 
 namespace Ecs.Game.Systems.Initialize
 {
-    public class HealthbarInitializeSystem : IInitializer
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class HealthbarInitializeSystem : IInitializer
     {
         private readonly IPlayerBasicParameters _playerBasicParameters;
-        private readonly IObjectResolver _objectResolver;
         
         private Filter _playerHealthbarFilter;
         private Stash<PlayerHealthbarComponent> _healthbarStash;
@@ -16,12 +19,10 @@ namespace Ecs.Game.Systems.Initialize
         public World World { set; get; }
 
         public HealthbarInitializeSystem(
-            IPlayerBasicParameters playerBasicParameters,
-            IObjectResolver objectResolver    
+            IPlayerBasicParameters playerBasicParameters
         )
         {
             _playerBasicParameters = playerBasicParameters;
-            _objectResolver = objectResolver;
         }
 
         public void OnAwake()

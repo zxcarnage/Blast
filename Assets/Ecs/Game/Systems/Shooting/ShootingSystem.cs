@@ -1,5 +1,4 @@
-﻿using Config.Player;
-using Ecs.Game.Components.Character;
+﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Player;
 using Game.Services.OverlapService;
