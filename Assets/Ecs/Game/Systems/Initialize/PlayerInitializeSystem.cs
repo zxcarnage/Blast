@@ -1,34 +1,42 @@
-﻿using Ecs.Utils;
+﻿using Config.Player;
+using Ecs.Utils;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using Utils.Providers.GameField;
-using VContainer;
 
 namespace Ecs.Game.Systems.Initialize
 {
-    public class PlayerInitializeSystem : IInitializer
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class PlayerInitializeSystem : IInitializer
     {
+        private readonly IPlayerBasicParameters _playerBasicParameters;
+        private readonly IPlayerMovementParameters _playerMovementParameters;
+        private readonly IPlayerShootingParameters _playerShootingParameters;
         private readonly IGameFieldProvider _gameFieldProvider;
-        private readonly IObjectResolver _resolver;
 
         public World World { get; set; }
 
         public PlayerInitializeSystem(
             IGameFieldProvider gameFieldProvider,
-            IObjectResolver resolver
+            IPlayerBasicParameters playerBasicParameters,
+            IPlayerMovementParameters playerMovementParameters,
+            IPlayerShootingParameters playerShootingParameters
         )
         {
             _gameFieldProvider = gameFieldProvider;
-            _resolver = resolver;
+            _playerBasicParameters = playerBasicParameters;
+            _playerMovementParameters = playerMovementParameters;
+            _playerShootingParameters = playerShootingParameters;
         }
 
         public void OnAwake()
         {
             var playerView = _gameFieldProvider.GameField.Player;
             
-            World.CreatePlayer(playerView);
+            World.CreatePlayer(playerView, _playerBasicParameters.Health, _playerShootingParameters.Damage, _playerMovementParameters.Speed);
             World.CreatePlayerHead(playerView);
-            
-            _resolver.Inject(playerView);
         }
 
         public void Dispose()

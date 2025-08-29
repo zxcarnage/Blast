@@ -1,34 +1,31 @@
-﻿using Config.Player;
-using Ecs.Game.Components.Character;
+﻿using Ecs.Game.Components.Character;
 using Ecs.Game.Components.Player;
 using Scellecs.Morpeh;
+using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
 namespace Ecs.Game.Systems.Movement
 {
-    public class PlayerMovementSystem : IFixedSystem
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public sealed class PlayerMovementSystem : IFixedSystem
     {
-        private readonly IPlayerMovementParameters _playerMovementParameters;
-
         private Filter _playerFilter;
         private Stash<MoveDirectionComponent> _moveDirectionStash;
         private Stash<RigidbodyComponent> _rigidbodyStash;
         private Stash<TransformComponent> _transformStash;
+        private Stash<SpeedComponent> _speedStash;
         
         public World World { get; set; }
-
-        public PlayerMovementSystem(
-            IPlayerMovementParameters playerMovementParameters    
-        )
-        {
-            _playerMovementParameters = playerMovementParameters;
-        }
-
+        
         public void OnAwake()
         {
             _moveDirectionStash = World.GetStash<MoveDirectionComponent>();
             _rigidbodyStash = World.GetStash<RigidbodyComponent>();
             _transformStash = World.GetStash<TransformComponent>();
+            _speedStash = World.GetStash<SpeedComponent>();
+            
             _playerFilter = World.Filter
                 .With<PlayerComponent>()
                 .With<MoveDirectionComponent>()
@@ -54,7 +51,8 @@ namespace Ecs.Game.Systems.Movement
                 var localDirection = new Vector3(direction.Value.x, 0f, direction.Value.z);
                 var worldDirection = transform.Value.TransformDirection(localDirection);
                 var currentYVelocity = rigidbody.Value.velocity.y;
-                var targetVelocity = worldDirection * _playerMovementParameters.Speed;
+                var speed = _speedStash.Get(player).Value;
+                var targetVelocity = worldDirection * speed;
                 targetVelocity.y = currentYVelocity;
                 
                 rigidbody.Value.velocity = targetVelocity;

@@ -53,6 +53,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UpgradeMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""7d6ff9b7-63aa-4f06-9674-f8a03fd5cf2a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a195eb8-77aa-4ffd-a0e0-acd49a421e52"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpgradeMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_Keyboard_WASDMovement = m_Keyboard.FindAction("WASD Movement", throwIfNotFound: true);
         m_Keyboard_MouseMovement = m_Keyboard.FindAction("Mouse Movement", throwIfNotFound: true);
         m_Keyboard_Shoot = m_Keyboard.FindAction("Shoot", throwIfNotFound: true);
+        m_Keyboard_UpgradeMenu = m_Keyboard.FindAction("UpgradeMenu", throwIfNotFound: true);
     }
 
     ~@PlayerInputAction()
@@ -212,6 +233,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Keyboard_WASDMovement;
     private readonly InputAction m_Keyboard_MouseMovement;
     private readonly InputAction m_Keyboard_Shoot;
+    private readonly InputAction m_Keyboard_UpgradeMenu;
     public struct KeyboardActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -219,6 +241,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @WASDMovement => m_Wrapper.m_Keyboard_WASDMovement;
         public InputAction @MouseMovement => m_Wrapper.m_Keyboard_MouseMovement;
         public InputAction @Shoot => m_Wrapper.m_Keyboard_Shoot;
+        public InputAction @UpgradeMenu => m_Wrapper.m_Keyboard_UpgradeMenu;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -237,6 +260,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @UpgradeMenu.started += instance.OnUpgradeMenu;
+            @UpgradeMenu.performed += instance.OnUpgradeMenu;
+            @UpgradeMenu.canceled += instance.OnUpgradeMenu;
         }
 
         private void UnregisterCallbacks(IKeyboardActions instance)
@@ -250,6 +276,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @UpgradeMenu.started -= instance.OnUpgradeMenu;
+            @UpgradeMenu.performed -= instance.OnUpgradeMenu;
+            @UpgradeMenu.canceled -= instance.OnUpgradeMenu;
         }
 
         public void RemoveCallbacks(IKeyboardActions instance)
@@ -272,5 +301,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnWASDMovement(InputAction.CallbackContext context);
         void OnMouseMovement(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnUpgradeMenu(InputAction.CallbackContext context);
     }
 }

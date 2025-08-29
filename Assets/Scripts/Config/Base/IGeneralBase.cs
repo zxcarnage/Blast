@@ -5,6 +5,8 @@ using Config.Enemy.EnemySpawner.Impl;
 using Config.Enemy.Impl;
 using Config.Player.Impl;
 using Config.UI.Healthbar.Impl;
+using Config.UpgradeData.Impl;
+using Game.Views.UI.UpgradeMenu;
 
 namespace Config.Base
 {
@@ -18,5 +20,7 @@ namespace Config.Base
         PlayerShootingParameters PlayerShootingParameters { get; }
         EnemyParameters EnemyParameters { get; }
         HealthbarParameters HealthbarParameters { get; }
+        PlayerBasicParameters PlayerBasicParameters { get; }
+        UpgradeDataParameters UpgradeDataParameters { get; }
     }
 }

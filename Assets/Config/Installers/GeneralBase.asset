@@ -28,3 +28,7 @@ MonoBehaviour:
     type: 2}
   <HealthbarParameters>k__BackingField: {fileID: 11400000, guid: 04874d647cdac544c901c9585d82f885,
     type: 2}
+  <PlayerBasicParameters>k__BackingField: {fileID: 11400000, guid: 90c473849450ffd47a57b961e830cda4,
+    type: 2}
+  <UpgradeDataParameters>k__BackingField: {fileID: 11400000, guid: 1089d28b4354d044ab6efc4759da7023,
+    type: 2}

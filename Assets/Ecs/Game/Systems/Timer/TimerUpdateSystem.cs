@@ -3,6 +3,7 @@ using Ecs.Game.Components.Enemy;
 using Ecs.Game.Components.Timer;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Ecs.Game.Systems.Timer
 {
@@ -38,7 +39,7 @@ namespace Ecs.Game.Systems.Timer
 
         public void OnUpdate(float deltaTime)
         {
-            UpdateEnemySpawnTimer(deltaTime);
+            UpdateEnemySpawnTimer(deltaTime * Time.timeScale);
         }
 
         private void UpdateEnemySpawnTimer(float deltaTime)

@@ -4,6 +4,7 @@ using Config.Enemy.EnemySpawner.Impl;
 using Config.Enemy.Impl;
 using Config.Player.Impl;
 using Config.UI.Healthbar.Impl;
+using Config.UpgradeData.Impl;
 using UnityEngine;
 
 namespace Config.Base.Impl
@@ -34,5 +35,11 @@ namespace Config.Base.Impl
 
         [field: SerializeField]
         public HealthbarParameters HealthbarParameters { get; private set; }
+        
+        [field: SerializeField]
+        public PlayerBasicParameters PlayerBasicParameters { get; private set; }
+
+        [field: SerializeField]
+        public UpgradeDataParameters UpgradeDataParameters { get; private set; }
     }
 }

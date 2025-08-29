@@ -8,6 +8,7 @@ using Ecs.Game.Systems.Input;
 using Ecs.Game.Systems.Movement;
 using Ecs.Game.Systems.Shooting;
 using Ecs.Game.Systems.Timer;
+using Ecs.Game.Systems.UI;
 using VContainer;
 using VContainer.Unity;
 
@@ -23,6 +24,7 @@ namespace Ecs.Core.Installers
             builder.Register<InputInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<TimerInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<SpawnPointInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<HealthbarInitializeSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             
             builder.Register<KeyboardInputSystem>(Lifetime.Singleton).AsImplementedInterfaces();
 
@@ -34,6 +36,9 @@ namespace Ecs.Core.Installers
             builder.Register<ShootingSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyDamageHandlerSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyDeathSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UpgradeHealthSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UpgradeDamageSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<UpgradeSpeedSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }
